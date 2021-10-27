@@ -1,5 +1,5 @@
-
 using Configs;
+using Logic.AI;
 
 namespace Logic
 {
@@ -15,7 +15,8 @@ namespace Logic
 
         public Game Execute()
         {
-            return new Game();
+            var game = new Game(config.Settings.BoardSize, typeof(RandomMoveSelector));
+            return game;
         }
     }
 }

@@ -12,7 +12,6 @@ public class Main : MonoBehaviour
     void Start()
     {
         var game = new GenerateBoardCommand(Config).Execute();
-        
         RunGame(game.Players);
     }
 
@@ -34,6 +33,7 @@ public class Main : MonoBehaviour
     private void UpdateView()
     {
         //update stones + score view
+        //iterate through all cells (+ stones?)
         throw new NotImplementedException();
     }
 

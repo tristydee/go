@@ -12,16 +12,17 @@ namespace Logic
         private readonly Board board;
 
         //drag and drop script in settings to chose moveSelector
-        public Player(Board board, IMoveSelector moveSelector)
+        public Player(Board board, int index, IMoveSelector moveSelector)
         {
             this.board = board;
             this.moveSelector = moveSelector;
+            Index = index;
         }
 
         public async Task TakeTurn()
         {
             HasPassed = false;
-            var stone = moveSelector.TryPlaceStone(board, Index);
+            var stone = await moveSelector.TryPlaceStone(board, Index);
 
             if (stone == null)
             {
