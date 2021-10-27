@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Logic
@@ -5,5 +6,6 @@ namespace Logic
     public class Board
     {
         public Vector2Int Size;
+        public List<Cell> Cells;
     }
 }
