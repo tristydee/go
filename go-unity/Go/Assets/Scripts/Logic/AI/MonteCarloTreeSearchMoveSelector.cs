@@ -2,11 +2,11 @@ using System.Threading.Tasks;
 
 namespace Logic.AI
 {
-    public class MonteCarloTreeSearchMoveSelector : IMoveSelector
+    public class MonteCarloTreeSearchMoveSelector : MoveSelector
     {
-        public Task<Stone> TryPlaceStone(Board board, int playerIndex)
+        public override async Task<bool> TryPlaceStone(Board board, Player player, Player otherPlayer)
         {
-            return null;
+            return false;
         }
     }
 }

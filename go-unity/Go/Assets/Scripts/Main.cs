@@ -4,22 +4,25 @@ using System.Threading.Tasks;
 using Logic;
 using UnityEngine;
 using Configs;
+using Logic.AI;
 
 public class Main : MonoBehaviour
 {
     [SerializeField] private Config Config;
+
+    private Game game;
     
     void Start()
     {
-        var game = new GenerateBoardCommand(Config).Execute();
-        RunGame(game.Players);
+        game = new GenerateBoardCommand(Config).Execute();
+        RunGame();
     }
 
-    private async void RunGame(Player[] players)
+    private async void RunGame()
     {
-        while (players.All(p => !p.HasPassed))
+        while (game.Players.All(p => !p.HasPassed))
         {
-            foreach (var player in players)
+            foreach (var player in game.Players)
             {
                 await player.TakeTurn();
                 UpdateView();
@@ -34,6 +37,7 @@ public class Main : MonoBehaviour
     {
         //update stones + score view
         //iterate through all cells (+ stones?)
+        
         throw new NotImplementedException();
     }
 

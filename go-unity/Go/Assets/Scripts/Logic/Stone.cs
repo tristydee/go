@@ -2,14 +2,23 @@ namespace Logic
 {
     public class Stone
     {
-        public readonly int PlayerIndex;
-        public readonly Cell Cell;
         public int Liberties { get; }
+        
+        public readonly Cell Cell;
+        
+        private readonly Player player;
+        private readonly Player otherPlayer;
 
-        public Stone(int playerIndex, Cell cell)
+        public Stone(Player player, Player otherPlayer, Cell cell)
         {
-            PlayerIndex = playerIndex;
+            this.player = player;
+            this.otherPlayer = otherPlayer;
             Cell = cell;
+        }
+
+        public void Capture()
+        {
+            otherPlayer.CapturedStones.Add(this);
         }
     }
 }

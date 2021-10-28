@@ -2,11 +2,14 @@ using System.Threading.Tasks;
 
 namespace Logic.AI
 {
-    public interface IMoveSelector
-    
-        //interface should be abstract class so it can handle things like checking for valid moves?
-        // or use a command isValidMoveCommand
+    public abstract class MoveSelector
     {
-        Task<Stone> TryPlaceStone(Board board, int playerIndex);
+        //todo: keep track of states here. for ko rule and mcts
+        public abstract Task<bool> TryPlaceStone(Board board, Player player, Player otherPlayer);
+
+        protected void AddStoneToCell(Stone stone, Cell cell)
+        {
+            cell.AddStone(stone);
+        }
     }
 }

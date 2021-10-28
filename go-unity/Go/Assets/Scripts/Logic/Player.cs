@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Logic.AI;
 
@@ -5,31 +7,24 @@ namespace Logic
 {
     public class Player
     {
-        public int Index;
         public bool HasPassed;
+        public List<Stone> CapturedStones = new List<Stone>();
 
-        private IMoveSelector moveSelector;
+        private readonly MoveSelector moveSelector;
         private readonly Board board;
+        private readonly Player otherPlayer;
 
-        //drag and drop script in settings to chose moveSelector
-        public Player(Board board, int index, IMoveSelector moveSelector)
+        public Player(Game game, MoveSelector moveSelector)
         {
-            this.board = board;
             this.moveSelector = moveSelector;
-            Index = index;
+            board = game.Board;
+            otherPlayer = game.Players.First(p => p != this);
         }
+
 
         public async Task TakeTurn()
         {
-            HasPassed = false;
-            var stone = await moveSelector.TryPlaceStone(board, Index);
-
-            if (stone == null)
-            {
-                HasPassed = true;
-                return;
-            }
-
+            HasPassed = !await moveSelector.TryPlaceStone(board, this, otherPlayer);
         }
     }
 }

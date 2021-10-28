@@ -1,4 +1,3 @@
-using System;
 using Logic.AI;
 using UnityEngine;
 
@@ -7,19 +6,17 @@ namespace Logic
     public class Game
     {
         public Board Board;
-        public Player[] Players;
+        public readonly Player[] Players;
 
-        public Game(Vector2Int boardSize, Type type) //todo: constrict type to be IMoveSelector?
+        public Game(Vector2Int boardSize, MoveSelector moveSelector)
         {
-            var board = new Board(boardSize);
-            
+            Board = new Board(boardSize);
+
             Players = new Player[2];
             for (var i = 0; i < Players.Length; i++)
             {
-                Players[i] = new Player(board,i,(IMoveSelector)Activator.CreateInstance(type));
+                Players[i] = new Player( this, moveSelector);
             }
-
-            throw new NotImplementedException();
         }
     }
 }

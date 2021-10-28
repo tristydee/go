@@ -1,3 +1,4 @@
+using System;
 using Configs;
 using Logic.AI;
 
@@ -6,7 +7,7 @@ namespace Logic
     
     public class GenerateBoardCommand
     {
-        private Config config;
+        private readonly Config config;
 
         public GenerateBoardCommand(Config config)
         {
@@ -15,7 +16,8 @@ namespace Logic
 
         public Game Execute()
         {
-            var game = new Game(config.Settings.BoardSize, typeof(RandomMoveSelector));
+            //todo: which move selector to use should be serialized in settings.
+            var game = new Game(config.Settings.BoardSize,(MoveSelector)Activator.CreateInstance(typeof(RandomMoveSelector))); 
             return game;
         }
     }
