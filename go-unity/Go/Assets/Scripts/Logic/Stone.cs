@@ -2,7 +2,6 @@ namespace Logic
 {
     public class Stone
     {
-        public int Liberties { get; }
         public  Player Player { get; private set; }
 
         public readonly Cell Cell;

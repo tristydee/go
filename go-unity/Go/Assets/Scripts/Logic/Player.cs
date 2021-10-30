@@ -31,6 +31,7 @@ namespace Logic
         public async Task TakeTurn()
         {
             HasPassed = !await moveSelector.TryPlaceStone(board, this, otherPlayer);
+            //todo: update board state!
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Logic
         private readonly Player player;
         private readonly Player otherPlayer;
 
-        private List<RuleCommand> rules;
+        private List<PlacementRuleCommand> rules;
         //drag and drop RuleCommands in config to get a list instead of having to touch code.
 
         public IsValidCellCommand(Cell cell, Board board, Player player, Player otherPlayer)
@@ -27,12 +27,12 @@ namespace Logic
         {
             stoneToPlace = new Stone(player, otherPlayer, cell);
 
-            rules.Add(new CellIsEmptyRuleCommand(cell,board));
-            rules.Add(new KoRuleCommand(cell,board));
-            rules.Add(new EnoughLibertiesRuleCommand(cell,board));
+            rules.Add(new CellIsEmptyPlacementRuleCommand(cell,board, player));
+            rules.Add(new KoPlacementRuleCommand(cell,board, player));
+            rules.Add(new EnoughLibertiesPlacementRuleCommand(cell,board, player));
             
              var isValid = rules.All(r => r.Execute());
-            stonesToRemove = null; //todo: do this in a separate command. or in here.    
+            stonesToRemove = null; //todo: do this in a separate command. RemoveCapturedStonesCommand
             return isValid;
         }
     }
