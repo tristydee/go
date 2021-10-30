@@ -11,7 +11,7 @@ public class Main : MonoBehaviour
     [SerializeField] private Config Config;
 
     private Game game;
-    
+
     void Start()
     {
         game = new GenerateBoardCommand(Config).Execute();
@@ -35,10 +35,10 @@ public class Main : MonoBehaviour
 
     private void UpdateView()
     {
-        //update stones + score view
-        //iterate through all cells (+ stones?)
-        
-        throw new NotImplementedException();
+        foreach (var cell in game.Board.Cells)
+        {
+            cell.UpdateView();
+        }
     }
 
     private void EndGame()

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Logic.Rules;
 
 namespace Logic
 {
@@ -9,6 +11,9 @@ namespace Logic
         private readonly Board board;
         private readonly Player player;
         private readonly Player otherPlayer;
+
+        private List<RuleCommand> rules;
+        //needs a list of rule types to create instances of.
 
         public IsValidCellCommand(Cell cell, Board board, Player player, Player otherPlayer)
         {
@@ -21,34 +26,14 @@ namespace Logic
         public bool Execute(out Stone stoneToPlace, out List<Stone> stonesToRemove)
         {
             stoneToPlace = new Stone(player, otherPlayer, cell);
-            stonesToRemove = null;
-            //violates open close principle. Rules should be list of commands that can be easily added to list.
-            var isValid = IsCellEmpty() && !DoesViolateKoRule() && (HasEnoughLiberties() || CapturesStones(out stonesToRemove));
+
+            rules.Add(new CellIsEmptyRuleCommand(cell,board.BoardState));
+            rules.Add(new KoRuleCommand(cell,board.BoardState));
+            rules.Add(new EnoughLibertiesRuleCommand(cell,board.BoardState));
+            
+             var isValid = rules.All(r => r.Execute());
+            stonesToRemove = null; //todo: do this in a separate command. or in here.    
             return isValid;
-        }
-
-        private bool IsCellEmpty()
-        {
-            return !cell.IsOccupied;
-        }
-
-        private bool DoesViolateKoRule()
-        {
-            // need to see if previous state is equal to this state... reason enough for this not be a command but be in abstract moveSelector class.
-            throw new NotImplementedException();
-            return false;
-        }
-
-        private bool HasEnoughLiberties()
-        {
-            throw new NotImplementedException();
-            return true;
-        }
-
-        private bool CapturesStones(out List<Stone> stonesToRemove)
-        {
-            throw new NotImplementedException();
-            return false;
         }
     }
 }

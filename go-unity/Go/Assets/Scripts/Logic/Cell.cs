@@ -10,19 +10,20 @@ namespace Logic
         private Stone stone;
         public Vector2Int Position;
 
-        private CellView view;
+        private CellView cellView;
+        private StoneView stoneView;
+        
+        //
         
 
-        public Cell(Vector2Int position, CellView view)
+        public Cell(Vector2Int position, CellView cellViewPrefab, StoneView stoneViewPrefab)
         {
-            //todo: init view
-            throw new System.NotImplementedException();
+            InitView(position, cellViewPrefab, stoneViewPrefab);
         }
 
         public void AddStone(Stone stone)
         {
             this.stone = stone;
-            //this should start a 
         }
 
         public void RemoveStone()
@@ -33,7 +34,18 @@ namespace Logic
 
         public void UpdateView()
         {
+            if (!IsOccupied)
+                stoneView.Hide();
+            else
+                stoneView.Show(stone.Player);
             //update score...
+        }
+
+        private void InitView(Vector2Int position, CellView cellViewPrefab, StoneView stoneViewPrefab)
+        {
+            cellView = Object.Instantiate(cellViewPrefab,(Vector2)position,Quaternion.identity);
+            stoneView = Object.Instantiate(stoneViewPrefab, cellView.transform);
+            stoneView.Hide();
         }
     }
 }
