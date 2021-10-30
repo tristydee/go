@@ -13,7 +13,7 @@ namespace Logic
         private readonly Player otherPlayer;
 
         private List<RuleCommand> rules;
-        //needs a list of rule types to create instances of.
+        //drag and drop RuleCommands in config to get a list instead of having to touch code.
 
         public IsValidCellCommand(Cell cell, Board board, Player player, Player otherPlayer)
         {

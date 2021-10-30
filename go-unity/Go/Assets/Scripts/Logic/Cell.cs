@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using Views;
 
@@ -6,6 +7,7 @@ namespace Logic
     public class Cell
     {
         public bool IsOccupied => stone != null;
+        public CellOccupationState CellOccupationState => !IsOccupied ? CellOccupationState.Empty : stone.Player.OccupationState;
 
         private Stone stone;
         public Vector2Int Position;
@@ -13,9 +15,6 @@ namespace Logic
         private CellView cellView;
         private StoneView stoneView;
         
-        //
-        
-
         public Cell(Vector2Int position, CellView cellViewPrefab, StoneView stoneViewPrefab)
         {
             InitView(position, cellViewPrefab, stoneViewPrefab);
@@ -38,7 +37,6 @@ namespace Logic
                 stoneView.Hide();
             else
                 stoneView.Show(stone.Player);
-            //update score...
         }
 
         private void InitView(Vector2Int position, CellView cellViewPrefab, StoneView stoneViewPrefab)

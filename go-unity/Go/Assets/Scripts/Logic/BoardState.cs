@@ -2,21 +2,24 @@ namespace Logic
 {
     public class BoardState
     {
-        public enum CellState
-        {
-            Empty,
-            Player1,
-            Player2,
-        }
 
-        public CellState[,] cellStates;
+        public CellOccupationState[,] cellStates;
 
         public BoardState(Board board)
         {
-            //create list of cell states here.
+            var width = board.Cells.GetLength(0);
+            var height = board.Cells.GetLength(1);
+            
+            cellStates = new CellOccupationState[width,height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    cellStates[x, y] = board.Cells[x, y].CellOccupationState;
+                }
+            }
         }
 
-        //todo: need to be able to check if two board states are equal. overload ==
         public static bool operator ==(BoardState state1, BoardState state2)
         {
             return AreStatesEqual(state1, state2);

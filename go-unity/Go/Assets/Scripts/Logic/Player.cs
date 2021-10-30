@@ -8,7 +8,11 @@ namespace Logic
 {
     public class Player
     {
-        public Color Color => otherPlayer.Color == Color.white ? Color.black : Color.white;
+        public CellOccupationState OccupationState => otherPlayer.OccupationState == CellOccupationState.Player1
+            ? CellOccupationState.Player2
+            : CellOccupationState.Player1;
+
+        public Color Color => OccupationState == CellOccupationState.Player1 ? Color.black : Color.white;
         public bool HasPassed;
         public List<Stone> CapturedStones = new List<Stone>();
 
