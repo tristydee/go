@@ -7,7 +7,9 @@ namespace Logic
     public class Board
     {
         public Cell[,] Cells;
-        public BoardState BoardState;
+        //todo: change to tree at some point?
+        public BoardState CurrentBoardState;
+        public List<BoardState> BoardStates = new List<BoardState>();
 
         public Board(Vector2Int size, Assets assets)
         {
@@ -21,7 +23,8 @@ namespace Logic
                 }
             }
 
-            BoardState = new BoardState(this);
+            CurrentBoardState = new BoardState(this);
+            BoardStates.Add(CurrentBoardState);
         }
     }
 }

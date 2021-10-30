@@ -5,13 +5,13 @@ namespace Logic.Rules
         
         //needs constructor that takes game state as an argument (ko rule)
 
-        private readonly Cell cell;
-        private readonly BoardState stateAtLastPly;
+        protected readonly Cell cell;
+        protected readonly Board board;
 
-        protected RuleCommand(Cell cell, BoardState stateAtLastPly)
+        protected RuleCommand(Cell cell, Board board)
         {
             this.cell = cell;
-            this.stateAtLastPly = stateAtLastPly;
+            this.board = board;
         }
 
         public abstract bool Execute();

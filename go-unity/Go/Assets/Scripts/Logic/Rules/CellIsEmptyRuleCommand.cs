@@ -2,13 +2,13 @@ namespace Logic.Rules
 {
     public class CellIsEmptyRuleCommand : RuleCommand
     {
-        public CellIsEmptyRuleCommand(Cell cell, BoardState stateAtLastPly) : base(cell, stateAtLastPly)
+        public CellIsEmptyRuleCommand(Cell cell, Board board) : base(cell, board)
         {
         }
 
         public override bool Execute()
         {
-            throw new System.NotImplementedException();
+            return !cell.IsOccupied;
         }
     }
 }

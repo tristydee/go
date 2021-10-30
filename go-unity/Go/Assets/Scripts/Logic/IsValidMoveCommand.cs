@@ -27,9 +27,9 @@ namespace Logic
         {
             stoneToPlace = new Stone(player, otherPlayer, cell);
 
-            rules.Add(new CellIsEmptyRuleCommand(cell,board.BoardState));
-            rules.Add(new KoRuleCommand(cell,board.BoardState));
-            rules.Add(new EnoughLibertiesRuleCommand(cell,board.BoardState));
+            rules.Add(new CellIsEmptyRuleCommand(cell,board));
+            rules.Add(new KoRuleCommand(cell,board));
+            rules.Add(new EnoughLibertiesRuleCommand(cell,board));
             
              var isValid = rules.All(r => r.Execute());
             stonesToRemove = null; //todo: do this in a separate command. or in here.    
