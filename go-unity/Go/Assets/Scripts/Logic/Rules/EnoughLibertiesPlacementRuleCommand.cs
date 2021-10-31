@@ -1,22 +1,28 @@
-using System;
+using System.Linq;
 
 namespace Logic.Rules
 {
     public class EnoughLibertiesPlacementRuleCommand : PlacementRuleCommand
     {
-        //either liberties greater 0 or capture stones.
         public EnoughLibertiesPlacementRuleCommand(Cell cell, Board board, Player player) : base(cell, board, player)
         {
         }
 
         public override bool Execute()
         {
-            var cellHasEnoughLiberties = Board.GetLiberties(Cell, Player) > 0;
+            var cellHasEnoughLiberties = Board.GetLiberties(Cell, Player, out _) > 0;
 
             if (cellHasEnoughLiberties) return true;
 
-            //todo: see if stones would be captured if stone were to be placed here
-            throw new NotImplementedException();
+            var enemyNeighbours = Board.GetNeighbouringCells(Cell, Player.OtherPlayer.OccupationState);
+            foreach (var enemyNeighbour in enemyNeighbours)
+            {
+                Board.GetLiberties(enemyNeighbour, Player.OtherPlayer, out var emptyNeighbouringCell);
+                if (emptyNeighbouringCell.Count == 1 && emptyNeighbouringCell.First() == Cell)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

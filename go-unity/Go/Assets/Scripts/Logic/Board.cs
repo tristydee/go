@@ -28,14 +28,14 @@ namespace Logic
         private readonly List<Cell> connectedFriendlyCells = new List<Cell>();
         private readonly List<Cell> neighbouringEmptyCells = new List<Cell>();
 
-        public int GetLiberties(Cell cell, Player player)
+        public int GetLiberties(Cell cell, Player player, out List<Cell> emptyNeighbouringCells)
         {
             connectedFriendlyCells.Clear();
             GetConnectedNeighbouringCells(cell);
 
             void GetConnectedNeighbouringCells(Cell currentCell)
             {
-                AddNeighbouringCellsToList(currentCell, player.OccupationState);
+                var neighbouringCells = GetNeighbouringCells(currentCell, player.OccupationState);
 
                 foreach (var neighbouringCell in neighbouringCells)
                 {
@@ -47,7 +47,7 @@ namespace Logic
 
             foreach (var connectedFriendlyCell in connectedFriendlyCells)
             {
-                AddNeighbouringCellsToList(connectedFriendlyCell, CellOccupationState.Empty);
+                var neighbouringCells = GetNeighbouringCells(connectedFriendlyCell, CellOccupationState.Empty);
 
                 foreach (var neighbouringCell in neighbouringCells)
                 {
@@ -56,14 +56,14 @@ namespace Logic
                 }
             }
 
+            emptyNeighbouringCells = neighbouringEmptyCells;
             return neighbouringEmptyCells.Count;
         }
 
-        private readonly List<Cell> neighbouringCells = new List<Cell>();
 
-        private void AddNeighbouringCellsToList(Cell cell, CellOccupationState requiredOccupationState)
+        public List<Cell> GetNeighbouringCells(Cell cell, CellOccupationState requiredOccupationState)
         {
-            neighbouringCells.Clear();
+            var neighbouringCells = new List<Cell>();
             var xPos = cell.Position.x;
             var yPos = cell.Position.y;
 
@@ -77,6 +77,8 @@ namespace Logic
                 if (!requiredOccupationState.HasFlag(neighbouringCells[i].CellOccupationState))
                     neighbouringCells.Remove(neighbouringCells[i]);
             }
+
+            return neighbouringCells;
         }
     }
 }

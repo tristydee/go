@@ -32,6 +32,7 @@ namespace Logic
             
              var isValid = rules.All(r => r.Execute());
             stonesToRemove = null; //todo: do this in a separate command. RemoveCapturedStonesCommand
+            //or the rule command adds the stones to capture to the board class, which
             return isValid;
         }
     }
