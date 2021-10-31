@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Configs;
 using UnityEngine;
@@ -26,44 +25,58 @@ namespace Logic
             BoardStates.Add(CurrentBoardState);
         }
 
-        private List<Cell> connectedFriendlyCells = new List<Cell>();
-        private List<Cell> neighbouringCells = new List<Cell>();
+        private readonly List<Cell> connectedFriendlyCells = new List<Cell>();
+        private readonly List<Cell> neighbouringEmptyCells = new List<Cell>();
 
         public int GetLiberties(Cell cell, Player player)
         {
-            //cell needs liberties of all friendly neighbouring occupied cells as well.
-
-
             connectedFriendlyCells.Clear();
             GetConnectedNeighbouringCells(cell);
 
             void GetConnectedNeighbouringCells(Cell currentCell)
             {
-                neighbouringCells.Clear();
-                var xPos = currentCell.Position.x;
-                var yPos = currentCell.Position.y;
+                AddNeighbouringCellsToList(currentCell, player.OccupationState);
 
-                neighbouringCells.Add(Cells[xPos - 1, yPos]);
-                neighbouringCells.Add(Cells[xPos + 1, yPos]);
-                neighbouringCells.Add(Cells[xPos, yPos + 1]);
-                neighbouringCells.Add(Cells[xPos, yPos - 1]);
-                
                 foreach (var neighbouringCell in neighbouringCells)
                 {
-                    if(connectedFriendlyCells.Contains(neighbouringCell)) continue;
+                    if (connectedFriendlyCells.Contains(neighbouringCell)) continue;
                     connectedFriendlyCells.Add(neighbouringCell);
                     GetConnectedNeighbouringCells(neighbouringCell);
                 }
             }
 
-            var liberties = 0;
             foreach (var connectedFriendlyCell in connectedFriendlyCells)
             {
-                //todo: get amount of empty cells neighbouring this cell.
-                //todo: getting neighbouring cells should be an extension method.
+                AddNeighbouringCellsToList(connectedFriendlyCell, CellOccupationState.Empty);
+
+                foreach (var neighbouringCell in neighbouringCells)
+                {
+                    if (neighbouringEmptyCells.Contains(neighbouringCell)) continue;
+                    neighbouringEmptyCells.Add(neighbouringCell);
+                }
             }
 
-            throw new NotImplementedException();
+            return neighbouringEmptyCells.Count;
+        }
+
+        private readonly List<Cell> neighbouringCells = new List<Cell>();
+
+        private void AddNeighbouringCellsToList(Cell cell, CellOccupationState requiredOccupationState)
+        {
+            neighbouringCells.Clear();
+            var xPos = cell.Position.x;
+            var yPos = cell.Position.y;
+
+            neighbouringCells.Add(Cells[xPos - 1, yPos]);
+            neighbouringCells.Add(Cells[xPos + 1, yPos]);
+            neighbouringCells.Add(Cells[xPos, yPos + 1]);
+            neighbouringCells.Add(Cells[xPos, yPos - 1]);
+
+            for (var i = neighbouringCells.Count - 1; i >= 0; i--)
+            {
+                if (!requiredOccupationState.HasFlag(neighbouringCells[i].CellOccupationState))
+                    neighbouringCells.Remove(neighbouringCells[i]);
+            }
         }
     }
 }

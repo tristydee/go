@@ -2,8 +2,6 @@ namespace Logic.Rules
 {
     public abstract class PlacementRuleCommand
     {
-        //needs constructor that takes game state as an argument (ko rule)
-
         protected readonly Cell Cell;
         protected readonly Board Board;
         protected readonly Player Player;

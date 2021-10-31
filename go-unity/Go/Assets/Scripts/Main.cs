@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Logic;
 using UnityEngine;
 using Configs;
-using Logic.AI;
 
 public class Main : MonoBehaviour
 {
