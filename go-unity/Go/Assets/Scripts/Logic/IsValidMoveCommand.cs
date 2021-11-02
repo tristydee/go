@@ -22,7 +22,7 @@ namespace Logic
             this.otherPlayer = otherPlayer;
         }
 
-        public bool Execute(out Stone stoneToPlace, out List<Stone> stonesToRemove)
+        public bool Execute(out Stone stoneToPlace)
         {
             stoneToPlace = new Stone(player, otherPlayer, cell);
 
@@ -31,8 +31,6 @@ namespace Logic
             rules.Add(new EnoughLibertiesPlacementRuleCommand(cell,board, player));
             
              var isValid = rules.All(r => r.Execute());
-            stonesToRemove = null; //todo: do this in a separate command. RemoveCapturedStonesCommand
-            //or the rule command adds the stones to capture to the board class, which
             return isValid;
         }
     }

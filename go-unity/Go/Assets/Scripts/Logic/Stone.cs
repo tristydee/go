@@ -3,22 +3,21 @@ namespace Logic
     public class Stone
     {
         public  Player Player { get; private set; }
-
+        public readonly Player OtherPlayer;
         public readonly Cell Cell;
         
-        private readonly Player otherPlayer;
         private readonly Player player;
 
         public Stone(Player player, Player otherPlayer, Cell cell)
         {
             this.player = player;
-            this.otherPlayer = otherPlayer;
+            this.OtherPlayer = otherPlayer;
             Cell = cell;
         }
 
         public void Capture()
         {
-            otherPlayer.CapturedStones.Add(this);
+            OtherPlayer.CapturedStones.Add(this);
         }
         
     }

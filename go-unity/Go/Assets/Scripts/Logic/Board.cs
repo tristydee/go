@@ -25,27 +25,13 @@ namespace Logic
             BoardStates.Add(CurrentBoardState);
         }
 
-        private readonly List<Cell> connectedFriendlyCells = new List<Cell>();
         private readonly List<Cell> neighbouringEmptyCells = new List<Cell>();
 
         public int GetLiberties(Cell cell, Player player, out List<Cell> emptyNeighbouringCells)
         {
-            connectedFriendlyCells.Clear();
-            GetConnectedNeighbouringCells(cell);
+            var cellsInShape = GetShape(cell, player.OccupationState);
 
-            void GetConnectedNeighbouringCells(Cell currentCell)
-            {
-                var neighbouringCells = GetNeighbouringCells(currentCell, player.OccupationState);
-
-                foreach (var neighbouringCell in neighbouringCells)
-                {
-                    if (connectedFriendlyCells.Contains(neighbouringCell)) continue;
-                    connectedFriendlyCells.Add(neighbouringCell);
-                    GetConnectedNeighbouringCells(neighbouringCell);
-                }
-            }
-
-            foreach (var connectedFriendlyCell in connectedFriendlyCells)
+            foreach (var connectedFriendlyCell in cellsInShape)
             {
                 var neighbouringCells = GetNeighbouringCells(connectedFriendlyCell, CellOccupationState.Empty);
 
@@ -58,6 +44,20 @@ namespace Logic
 
             emptyNeighbouringCells = neighbouringEmptyCells;
             return neighbouringEmptyCells.Count;
+        }
+        
+        public List<Cell> GetShape(Cell currentCell, CellOccupationState occupationState)
+        {
+            var cellsInShape = new List<Cell> { currentCell };
+            var neighbouringCells = GetNeighbouringCells(currentCell, occupationState);
+
+            foreach (var neighbouringCell in neighbouringCells)
+            {
+                if (cellsInShape.Contains(neighbouringCell)) continue;
+                GetShape(neighbouringCell, occupationState);
+            }
+
+            return cellsInShape;
         }
 
 

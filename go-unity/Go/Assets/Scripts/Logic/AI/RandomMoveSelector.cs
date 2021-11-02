@@ -22,15 +22,9 @@ namespace Logic.AI
 
             foreach (var shuffledCell in shuffledCells)
             {
-                if (new IsValidCellCommand(shuffledCell, board, player, otherPlayer).Execute(out var stoneToPlace,
-                    out var stonesToRemove))
+                if (new IsValidCellCommand(shuffledCell, board, player, otherPlayer).Execute(out var stoneToPlace))
                 {
-                    AddStoneToCell(stoneToPlace, shuffledCell);
-                    if (stonesToRemove != null)
-                    {
-                        stonesToRemove.ForEach(stone => stone.Cell.RemoveStone());
-                    }
-
+                    AddStoneToCell(board, stoneToPlace, shuffledCell);
                     return true;
                 }
             }
