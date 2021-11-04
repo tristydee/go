@@ -21,43 +21,53 @@ namespace Logic
                 }
             }
 
+
+            UpdateState();
+        }
+
+        public void UpdateState()
+        {
             CurrentBoardState = new BoardState(this);
             BoardStates.Add(CurrentBoardState);
         }
-
-        private readonly List<Cell> neighbouringEmptyCells = new List<Cell>();
 
         public int GetLiberties(Cell cell, Player player, out List<Cell> emptyNeighbouringCells)
         {
             var cellsInShape = GetShape(cell, player.OccupationState);
 
+            emptyNeighbouringCells = new List<Cell>();
+            
             foreach (var connectedFriendlyCell in cellsInShape)
             {
                 var neighbouringCells = GetNeighbouringCells(connectedFriendlyCell, CellOccupationState.Empty);
 
                 foreach (var neighbouringCell in neighbouringCells)
                 {
-                    if (neighbouringEmptyCells.Contains(neighbouringCell)) continue;
-                    neighbouringEmptyCells.Add(neighbouringCell);
+                    if (emptyNeighbouringCells.Contains(neighbouringCell)) continue;
+                    emptyNeighbouringCells.Add(neighbouringCell);
                 }
             }
 
-            emptyNeighbouringCells = neighbouringEmptyCells;
-            return neighbouringEmptyCells.Count;
+            return emptyNeighbouringCells.Count;
         }
-        
+
         public List<Cell> GetShape(Cell currentCell, CellOccupationState occupationState)
         {
-            var cellsInShape = new List<Cell> { currentCell };
-            var neighbouringCells = GetNeighbouringCells(currentCell, occupationState);
-
-            foreach (var neighbouringCell in neighbouringCells)
-            {
-                if (cellsInShape.Contains(neighbouringCell)) continue;
-                GetShape(neighbouringCell, occupationState);
-            }
-
+            var cellsInShape = new List<Cell>();
+            AddNeighboursToList(currentCell);
             return cellsInShape;
+
+            void AddNeighboursToList(Cell cell)
+            {
+                cellsInShape.Add(cell);
+                var neighbouringCells = GetNeighbouringCells(cell, occupationState);
+
+                foreach (var neighbouringCell in neighbouringCells)
+                {
+                    if (cellsInShape.Contains(neighbouringCell)) continue;
+                    AddNeighboursToList(neighbouringCell);
+                }
+            }
         }
 
 
@@ -67,10 +77,10 @@ namespace Logic
             var xPos = cell.Position.x;
             var yPos = cell.Position.y;
 
-            neighbouringCells.Add(Cells[xPos - 1, yPos]);
-            neighbouringCells.Add(Cells[xPos + 1, yPos]);
-            neighbouringCells.Add(Cells[xPos, yPos + 1]);
-            neighbouringCells.Add(Cells[xPos, yPos - 1]);
+            AddCellToList(xPos - 1, yPos);
+            AddCellToList(xPos + 1, yPos);
+            AddCellToList(xPos, yPos + 1);
+            AddCellToList(xPos, yPos - 1);
 
             for (var i = neighbouringCells.Count - 1; i >= 0; i--)
             {
@@ -79,6 +89,12 @@ namespace Logic
             }
 
             return neighbouringCells;
+
+            void AddCellToList(int x, int y)
+            {
+                if (x >= 0 && x < Cells.GetLength(0) && y >= 0 && y < Cells.GetLength(1))
+                    neighbouringCells.Add(Cells[x, y]);
+            }
         }
     }
 }

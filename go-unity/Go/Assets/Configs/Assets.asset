@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd853f9da62c43b9b9f27ffda797a441, type: 3}
+  m_Name: Assets
+  m_EditorClassIdentifier: 
+  CellPrefab: {fileID: 3238868799014843683, guid: 2b7ce10ec46bf44669308d2f1cff28e6, type: 3}
+  StonePrefab: {fileID: 2999724158358670937, guid: 449a0924c7af94af08f120ea40bfecd3, type: 3}

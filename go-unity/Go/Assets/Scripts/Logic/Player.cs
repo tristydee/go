@@ -15,7 +15,7 @@ namespace Logic
         public Color Color => OccupationState == CellOccupationState.Player1 ? Color.black : Color.white;
         public bool HasPassed;
         public List<Stone> CapturedStones = new List<Stone>();
-        public readonly Player OtherPlayer;
+        public Player OtherPlayer;
 
         private readonly MoveSelector moveSelector;
         private readonly Board board;
@@ -24,14 +24,18 @@ namespace Logic
         {
             this.moveSelector = moveSelector;
             board = game.Board;
-            OtherPlayer = game.Players.First(p => p != this);
+        }
+
+        public void SetOpponent(Player otherPlayer)
+        {
+            OtherPlayer = otherPlayer;
         }
 
 
         public async Task TakeTurn()
         {
             HasPassed = !await moveSelector.TryPlaceStone(board, this, OtherPlayer);
-            //todo: update board state!
+            board.UpdateState();
         }
     }
 }

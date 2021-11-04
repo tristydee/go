@@ -16,6 +16,7 @@ namespace Logic
         
         public Cell(Vector2Int position, CellView cellViewPrefab, StoneView stoneViewPrefab)
         {
+            Position = position;
             InitView(position, cellViewPrefab, stoneViewPrefab);
         }
 

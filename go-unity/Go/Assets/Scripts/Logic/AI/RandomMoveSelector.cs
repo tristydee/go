@@ -12,7 +12,7 @@ namespace Logic.AI
             var shuffledCells = new List<Cell>();
             for (int x = 0; x < cells.GetLength(0); x++)
             {
-                for (int y = 0; y < cells.GetLength(0); y++)
+                for (int y = 0; y < cells.GetLength(1); y++)
                 {
                     shuffledCells.Add(cells[x,y]);
                 }

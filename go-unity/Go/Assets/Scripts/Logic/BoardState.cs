@@ -2,8 +2,7 @@ namespace Logic
 {
     public class BoardState
     {
-
-        public CellOccupationState[,] cellStates;
+        private readonly CellOccupationState[,] cellStates;
 
         public BoardState(Board board)
         {
@@ -20,20 +19,25 @@ namespace Logic
             }
         }
 
+        public override int GetHashCode()
+        {
+            return (cellStates != null ? cellStates.GetHashCode() : 0);
+        }
+
         public static bool operator ==(BoardState state1, BoardState state2)
         {
-            return AreStatesEqual(state1, state2);
+            return Equals(state1,state2);
         }
 
         public static bool operator !=(BoardState state1, BoardState state2)
         {
-            return !AreStatesEqual(state1, state2);
+            return !Equals(state1,state2);
         }
-
-        private static bool AreStatesEqual(BoardState state1, BoardState state2)
+        
+        private bool Equals(BoardState other)
         {
-            var width = state1.cellStates.GetLength(0);
-            var height = state1.cellStates.GetLength(1);
+            var width = cellStates.GetLength(0);
+            var height = cellStates.GetLength(1);
 
             var isEqual = true;
             
@@ -41,11 +45,19 @@ namespace Logic
             {
                 for (int y = 0; y < height; y++)
                 {
-                    isEqual &= state1.cellStates[x, y] == state2.cellStates[x, y];
+                    isEqual &= cellStates[x, y] == other.cellStates[x, y];
                 }
             }
 
             return isEqual;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((BoardState)obj);
         }
     }
 }

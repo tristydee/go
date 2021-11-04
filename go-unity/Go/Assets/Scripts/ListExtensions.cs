@@ -4,7 +4,6 @@ namespace Common
 {
     public static class ListExtensions
     {
-        //todo: add shuffle extension and use in random move selector
         /// <summary>Creates a fully random permutation.</summary>
         public static void Shuffle<T>(this IList<T> list, System.Random random)
         {

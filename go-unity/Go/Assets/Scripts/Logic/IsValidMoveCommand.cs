@@ -11,8 +11,8 @@ namespace Logic
         private readonly Player player;
         private readonly Player otherPlayer;
 
-        private List<PlacementRuleCommand> rules;
-        //drag and drop RuleCommands in config to get a list instead of having to touch code.
+        private List<PlacementRuleCommand> rules = new List<PlacementRuleCommand>();
+        //todo: drag and drop RuleCommands in config (or type the Type in a public string) to get a list instead of having to touch code.
 
         public IsValidCellCommand(Cell cell, Board board, Player player, Player otherPlayer)
         {

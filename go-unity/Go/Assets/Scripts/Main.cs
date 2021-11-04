@@ -42,7 +42,8 @@ public class Main : MonoBehaviour
 
     private void EndGame()
     {
-        //show which player won
-        throw new NotImplementedException();
+        //todo: evaluation function
+        Debug.Log($"{game.Players[0]} has {10} points");
+        Debug.Log($"{game.Players[1]} has {10} points");
     }
 }
