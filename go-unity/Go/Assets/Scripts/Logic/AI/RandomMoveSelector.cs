@@ -14,7 +14,7 @@ namespace Logic.AI
             {
                 for (int y = 0; y < cells.GetLength(1); y++)
                 {
-                    shuffledCells.Add(cells[x,y]);
+                    shuffledCells.Add(cells[x, y]);
                 }
             }
 
