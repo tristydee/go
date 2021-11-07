@@ -10,15 +10,15 @@ namespace Logic.Rules
 
         public override bool Execute()
         {
-            var cellHasEnoughLiberties = Board.GetLiberties(Cell, Player, out _) > 0;
+            var cellHasEnoughLiberties = Board.GetLiberties(Cell, Player) > 0;
 
             if (cellHasEnoughLiberties) return true;
 
             var enemyNeighbours = Board.GetNeighbouringCells(Cell, Player.OtherPlayer.OccupationState);
             foreach (var enemyNeighbour in enemyNeighbours)
             {
-                Board.GetLiberties(enemyNeighbour, Player.OtherPlayer, out var emptyNeighbouringCell);
-                if (emptyNeighbouringCell.Count == 1 && emptyNeighbouringCell.First() == Cell)
+                var neighbours = Board.GetNeighbouringCells(enemyNeighbour, CellOccupationState.Empty);
+                if (neighbours.Count == 1 && neighbours[0] == Cell)
                     return true;
             }
 

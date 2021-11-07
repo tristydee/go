@@ -31,12 +31,11 @@ namespace Logic
             BoardStates.Add(CurrentBoardState);
         }
 
-        public int GetLiberties(Cell cell, Player player, out List<Cell> emptyNeighbouringCells)
+        public int GetLiberties(Cell cell, Player player)
         {
+            var emptyNeighbouringCells = new List<Cell>();
             var cellsInShape = GetShape(cell, player.OccupationState);
 
-            emptyNeighbouringCells = new List<Cell>();
-            
             foreach (var connectedFriendlyCell in cellsInShape)
             {
                 var neighbouringCells = GetNeighbouringCells(connectedFriendlyCell, CellOccupationState.Empty);
@@ -55,7 +54,6 @@ namespace Logic
         {
             var cellsInShape = new List<Cell>();
             AddNeighboursToList(currentCell);
-            return cellsInShape;
 
             void AddNeighboursToList(Cell cell)
             {
@@ -68,6 +66,8 @@ namespace Logic
                     AddNeighboursToList(neighbouringCell);
                 }
             }
+
+            return cellsInShape;
         }
 
 
