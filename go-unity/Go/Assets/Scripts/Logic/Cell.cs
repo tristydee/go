@@ -5,10 +5,10 @@ namespace Logic
 {
     public class Cell
     {
-        public bool IsOccupied => stone != null;
-        public CellOccupationState CellOccupationState => !IsOccupied ? CellOccupationState.Empty : stone.Player.OccupationState;
+        public bool IsOccupied => Stone != null;
+        public CellOccupationState CellOccupationState => !IsOccupied ? CellOccupationState.Empty : Stone.Player.OccupationState;
 
-        private Stone stone;
+        public Stone Stone;
         public Vector2Int Position;
 
         private CellView cellView;
@@ -22,13 +22,13 @@ namespace Logic
 
         public void AddStone(Stone stone)
         {
-            this.stone = stone;
+            this.Stone = stone;
         }
 
         public void RemoveStone()
         {
-            stone.Capture();
-            stone = null;
+            Stone.Capture();
+            Stone = null;
         }
 
         public void UpdateView()
@@ -36,7 +36,7 @@ namespace Logic
             if (!IsOccupied)
                 stoneView.Hide();
             else
-                stoneView.Show(stone.Player);
+                stoneView.Show(Stone.Player);
         }
 
         private void InitView(Vector2Int position, CellView cellViewPrefab, StoneView stoneViewPrefab)

@@ -43,9 +43,7 @@ public class Main : MonoBehaviour
 
     private void EndGame()
     {
-        //todo: serialize which IscoringCommand to use 
-        var score = new JapaneseScoringCommand().Execute();
-        
+        var score =((ScoringCommand)Activator.CreateInstance(Config.Settings.ScoringCommand, game)).Execute();
         Debug.Log($"{score[0].Player} has {score[0].Points} points");
         Debug.Log($"{score[1].Player} has {score[1].Points} points");
     }

@@ -15,5 +15,11 @@ namespace Common
                 (list[i], list[j]) = (list[j], list[i]);
             }
         }
+
+        public static void AddDistinct<T>(this IList<T> list, T item)
+        {
+            if (!list.Contains(item))
+                list.Add(item);
+        }
     }
 }

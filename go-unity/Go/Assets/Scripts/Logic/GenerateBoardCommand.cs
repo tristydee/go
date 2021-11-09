@@ -17,8 +17,7 @@ namespace Logic
 
         public Game Execute()
         {
-            //todo: which move selector to use should be serialized in settings.
-            var game = new Game(config.Settings.BoardSize,(MoveSelector)Activator.CreateInstance(typeof(RandomMoveSelector)), config.Assets);
+            var game = new Game(config.Settings.BoardSize,(MoveSelector)Activator.CreateInstance(config.Settings.MoveSelector), config);
             PositionCamera();
             return game;
         }

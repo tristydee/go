@@ -10,14 +10,14 @@ namespace Logic
         public Board Board;
         public readonly Player[] Players;
 
-        public Game(Vector2Int boardSize, MoveSelector moveSelector, Assets assets)
+        public Game(Vector2Int boardSize, MoveSelector moveSelector, Config config)
         {
-            Board = new Board(boardSize, assets);
+            Board = new Board(boardSize, config.Assets);
 
             Players = new Player[2];
             for (var i = 0; i < Players.Length; i++)
             {
-                Players[i] = new Player(this, moveSelector);
+                Players[i] = new Player(this, moveSelector,config.Settings);
             }
 
             foreach (var player in Players)

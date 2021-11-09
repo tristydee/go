@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Configs;
 using Logic.AI;
 using UnityEngine;
 
@@ -18,11 +19,13 @@ namespace Logic
         public Player OtherPlayer;
 
         private readonly MoveSelector moveSelector;
+        private readonly Settings settings;
         private readonly Board board;
 
-        public Player(Game game, MoveSelector moveSelector)
+        public Player(Game game, MoveSelector moveSelector, Settings settings)
         {
             this.moveSelector = moveSelector;
+            this.settings = settings;
             board = game.Board;
         }
 
@@ -34,7 +37,7 @@ namespace Logic
 
         public async Task TakeTurn()
         {
-            HasPassed = !await moveSelector.TryPlaceStone(board, this, OtherPlayer);
+            HasPassed = !await moveSelector.TryPlaceStone(board, this, OtherPlayer,settings);
             board.UpdateState();
         }
     }

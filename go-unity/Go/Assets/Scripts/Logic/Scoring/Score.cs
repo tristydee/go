@@ -5,10 +5,9 @@ namespace Logic.Scoring
         public Player Player;
         public int Points;
 
-        public Score(Player player, int points)
+        public Score(Player player)
         {
             Player = player;
-            Points = points;
         }
     }
 }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common;
+using Configs;
 
 namespace Logic.AI
 {
     public class RandomMoveSelector : MoveSelector
     {
-        public override async Task<bool> TryPlaceStone(Board board, Player player, Player otherPlayer)
+        public override async Task<bool> TryPlaceStone(Board board, Player player, Player otherPlayer, Settings settings)
         {
             var cells = board.Cells;
             var shuffledCells = new List<Cell>();
@@ -22,7 +23,7 @@ namespace Logic.AI
 
             foreach (var shuffledCell in shuffledCells)
             {
-                if (new IsValidCellCommand(shuffledCell, board, player, otherPlayer).Execute(out var stoneToPlace))
+                if (new IsValidCellCommand(shuffledCell, board, player, otherPlayer,settings.RuleCommands).Execute(out var stoneToPlace))
                 {
                     AddStoneToCell(board, stoneToPlace, shuffledCell);
                     return true;
