@@ -2,17 +2,13 @@ namespace Logic
 {
     public class Stone
     {
-        public  Player Player { get; private set; }
+        public readonly Player Player;
         public readonly Player OtherPlayer;
-        public readonly Cell Cell;
         
-        private readonly Player player;
-
-        public Stone(Player player, Player otherPlayer, Cell cell)
+        public Stone(Player player, Player otherPlayer)
         {
-            this.player = player;
-            this.OtherPlayer = otherPlayer;
-            Cell = cell;
+            Player = player;
+            OtherPlayer = otherPlayer;
         }
 
         public void Capture()

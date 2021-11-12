@@ -8,8 +8,8 @@ namespace Logic
         public bool IsOccupied => Stone != null;
         public CellOccupationState CellOccupationState => !IsOccupied ? CellOccupationState.Empty : Stone.Player.OccupationState;
 
-        public Stone Stone;
-        public Vector2Int Position;
+        public Stone Stone { get; private set; }
+        public Vector2Int Position { get; private set; }
 
         private CellView cellView;
         private StoneView stoneView;
@@ -22,7 +22,7 @@ namespace Logic
 
         public void AddStone(Stone stone)
         {
-            this.Stone = stone;
+            Stone = stone;
         }
 
         public void RemoveStone()

@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace Logic.Rules
 {
     public class EnoughLibertiesPlacementRuleCommand : PlacementRuleCommand

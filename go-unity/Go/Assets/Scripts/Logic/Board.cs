@@ -6,9 +6,9 @@ namespace Logic
 {
     public class Board
     {
-        public Cell[,] Cells;
+        public readonly Cell[,] Cells;
+        public readonly List<BoardState> BoardStates = new List<BoardState>();
         public BoardState CurrentBoardState;
-        public List<BoardState> BoardStates = new List<BoardState>();
 
         public Board(Vector2Int size, Assets assets)
         {

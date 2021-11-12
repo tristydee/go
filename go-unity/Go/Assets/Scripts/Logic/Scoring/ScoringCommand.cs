@@ -1,5 +1,3 @@
-using System;
-
 namespace Logic.Scoring
 {
     public abstract class ScoringCommand

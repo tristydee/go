@@ -7,7 +7,7 @@ namespace Logic
 {
     public class Game
     {
-        public Board Board;
+        public readonly Board Board;
         public readonly Player[] Players;
 
         public Game(Vector2Int boardSize, MoveSelector moveSelector, Config config)

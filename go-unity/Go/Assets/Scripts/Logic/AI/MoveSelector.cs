@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Configs;
-using Logic.Rules;
 
 namespace Logic.AI
 {

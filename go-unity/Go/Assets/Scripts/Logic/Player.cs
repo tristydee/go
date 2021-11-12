@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Configs;
 using Logic.AI;
@@ -14,9 +13,9 @@ namespace Logic
             : CellOccupationState.Player1;
 
         public Color Color => OccupationState == CellOccupationState.Player1 ? Color.black : Color.white;
-        public bool HasPassed;
-        public List<Stone> CapturedStones = new List<Stone>();
-        public Player OtherPlayer;
+        public readonly List<Stone> CapturedStones = new List<Stone>();
+        public bool HasPassed { get; private set; }
+        public Player OtherPlayer { get; private set; }
 
         private readonly MoveSelector moveSelector;
         private readonly Config config;
