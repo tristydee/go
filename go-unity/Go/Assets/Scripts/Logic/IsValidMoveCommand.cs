@@ -11,8 +11,8 @@ namespace Logic
         private readonly Board board;
         private readonly Player player;
         private readonly Player otherPlayer;
-        private readonly List<PlacementRuleCommand> placementRuleCommands;
-        //todo: drag and drop RuleCommands in config (or type the Type in a public string) to get a list instead of having to touch code.
+
+        private List<PlacementRuleCommand> placementRuleCommands = new List<PlacementRuleCommand>();
 
         public IsValidCellCommand(Cell cell, Board board, Player player, Player otherPlayer, List<PlacementRuleCommand> placementRuleCommands)
         {
@@ -27,11 +27,7 @@ namespace Logic
         {
             stoneToPlace = new Stone(player, otherPlayer, cell);
 
-            // rules.Add(new CellIsEmptyPlacementRuleCommand(cell,board, player));
-            // rules.Add(new KoPlacementRuleCommand(cell,board, player));
-            // rules.Add(new EnoughLibertiesPlacementRuleCommand(cell,board, player));
-            
-             var isValid = placementRuleCommands.All(r => r.Execute());
+             var isValid = placementRuleCommands.All(r => r.Execute(cell,board, player));
             return isValid;
         }
     }

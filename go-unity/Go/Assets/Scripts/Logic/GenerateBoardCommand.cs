@@ -17,7 +17,7 @@ namespace Logic
 
         public Game Execute()
         {
-            var game = new Game(config.Settings.BoardSize,(MoveSelector)Activator.CreateInstance(config.Settings.MoveSelector), config);
+            var game = new Game(config.Settings.BoardSize,config.MoveSelector, config);
             PositionCamera();
             return game;
         }

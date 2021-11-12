@@ -19,13 +19,13 @@ namespace Logic
         public Player OtherPlayer;
 
         private readonly MoveSelector moveSelector;
-        private readonly Settings settings;
+        private readonly Config config;
         private readonly Board board;
 
-        public Player(Game game, MoveSelector moveSelector, Settings settings)
+        public Player(Game game, MoveSelector moveSelector, Config config)
         {
             this.moveSelector = moveSelector;
-            this.settings = settings;
+            this.config = config;
             board = game.Board;
         }
 
@@ -37,7 +37,7 @@ namespace Logic
 
         public async Task TakeTurn()
         {
-            HasPassed = !await moveSelector.TryPlaceStone(board, this, OtherPlayer,settings);
+            HasPassed = !await moveSelector.TryPlaceStone(board, this, OtherPlayer,config);
             board.UpdateState();
         }
     }

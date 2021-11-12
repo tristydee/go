@@ -17,7 +17,7 @@ namespace Logic
             Players = new Player[2];
             for (var i = 0; i < Players.Length; i++)
             {
-                Players[i] = new Player(this, moveSelector,config.Settings);
+                Players[i] = new Player(this, moveSelector,config);
             }
 
             foreach (var player in Players)

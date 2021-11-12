@@ -2,13 +2,9 @@ namespace Logic.Rules
 {
     public class CellIsEmptyPlacementRuleCommand : PlacementRuleCommand
     {
-        public CellIsEmptyPlacementRuleCommand(Cell cell, Board board, Player player) : base(cell, board, player)
+        public override bool Execute(Cell cell,Board board, Player player)
         {
-        }
-
-        public override bool Execute()
-        {
-            return !Cell.IsOccupied;
+            return !cell.IsOccupied;
         }
     }
 }
