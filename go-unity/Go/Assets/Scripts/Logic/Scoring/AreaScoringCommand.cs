@@ -9,10 +9,6 @@ namespace Logic.Scoring
         private readonly List<Cell> checkedCells = new List<Cell>();
         private readonly List<Player> bumpedPlayers = new List<Player>();
 
-        public AreaScoringCommand(Game game) : base(game)
-        {
-        }
-
         public override Score[] Execute()
         {
             foreach (var cell in Game.Board.Cells)

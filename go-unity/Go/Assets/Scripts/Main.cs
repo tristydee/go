@@ -13,8 +13,9 @@ public class Main : MonoBehaviour
 
     void Start()
     {
+        Config.CreateInstances();
         game = new GenerateBoardCommand(Config).Execute();
-        Config.CreateInstances(game);
+        Config.Init(game);
         RunGame();
     }
 

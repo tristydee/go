@@ -5,13 +5,14 @@ namespace Logic.Scoring
         protected Game Game;
         protected Score[] Score;
 
-        protected ScoringCommand(Game game)
+        public void Init(Game game)
         {
             Game = game;
             Score = new Score[2];
             Score[0] = new Score(Game.Players[0]);
             Score[1] = new Score(Game.Players[1]);
         }
+
         public abstract Score[] Execute();
     }
 }

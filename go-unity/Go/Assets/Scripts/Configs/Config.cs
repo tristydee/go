@@ -17,16 +17,25 @@ namespace Configs
         public MoveSelector MoveSelector;
         public List<PlacementRuleCommand> PlacementRules;
 
-        public void CreateInstances(Game game)
+        public void CreateInstances()
         {
             MoveSelector = (MoveSelector)Activator.CreateInstance(typeof(RandomMoveSelector));
-            ScoringCommand = (ScoringCommand)Activator.CreateInstance(typeof(AreaScoringCommand), game);
+            ScoringCommand = (ScoringCommand)Activator.CreateInstance(typeof(AreaScoringCommand));
             PlacementRules = new List<PlacementRuleCommand>()
             {
                 new CellIsEmptyPlacementRuleCommand(),
                 new KoPlacementRuleCommand(),
                 new EnoughLibertiesPlacementRuleCommand(),
             };
+        }
+
+        public void CreateScoringCommand(Game game)
+        {
+        }
+
+        public void Init(Game game)
+        {
+            ScoringCommand.Init(game);
         }
     }
 }
