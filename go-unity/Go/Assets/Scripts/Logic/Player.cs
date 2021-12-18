@@ -38,6 +38,7 @@ namespace Logic
         {
             HasPassed = !await moveSelector.TryPlaceStone(board, this, OtherPlayer,config);
             board.UpdateState();
+            HasPassed = ! moveSelector.TryPlaceStone(board, this, OtherPlayer,config);
         }
     }
 }
