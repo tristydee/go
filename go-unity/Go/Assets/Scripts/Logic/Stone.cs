@@ -11,10 +11,5 @@ namespace Logic
             OtherPlayer = otherPlayer;
         }
 
-        public void Capture()
-        {
-            OtherPlayer.CapturedStones.Add(this);
-        }
-        
     }
 }

@@ -27,7 +27,6 @@ namespace Logic
 
         public void RemoveStone()
         {
-            Stone.Capture();
             Stone = null;
         }
 

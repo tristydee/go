@@ -13,7 +13,6 @@ namespace Logic
             : CellOccupationState.Player1;
 
         public Color Color => OccupationState == CellOccupationState.Player1 ? Color.black : Color.white;
-        public readonly List<Stone> CapturedStones = new List<Stone>();
         public bool HasPassed { get; private set; }
         public Player OtherPlayer { get; private set; }
 
