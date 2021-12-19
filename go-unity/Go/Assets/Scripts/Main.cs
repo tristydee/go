@@ -25,10 +25,11 @@ public class Main : MonoBehaviour
         {
             foreach (var player in game.Players)
             {
-                await player.TakeTurn();
+                player.TakeTurn();
                 UpdateView();
                 await Task.Delay(TimeSpan.FromSeconds(Config.Settings.DelayBetweenMoves));
             }
+            break;
         }
 
         EndGame();

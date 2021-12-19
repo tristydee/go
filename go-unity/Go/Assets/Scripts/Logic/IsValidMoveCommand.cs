@@ -25,7 +25,7 @@ namespace Logic
         {
             stoneToPlace = new Stone(player, otherPlayer);
 
-             var isValid = placementRuleCommands.All(r => r.Execute(cell,board, player));
+             var isValid = placementRuleCommands.All(r => r.Execute(cell,board, player, otherPlayer));
             return isValid;
         }
     }

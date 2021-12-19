@@ -13,9 +13,9 @@ namespace Logic.AI
 
         public RandomMoveSelector()
         {
-            this.random = new Random();
+            random = new Random();
         }
-
+        
         public override bool TryPlaceStone(Board board, Player player, Player otherPlayer, Config config)
         {
             var cells = board.Cells;
@@ -32,14 +32,12 @@ namespace Logic.AI
 
             foreach (var shuffledCell in shuffledCells)
             {
-                if (new IsValidCellCommand(shuffledCell, board, player, otherPlayer, config.PlacementRules).Execute(
-                    out var stoneToPlace))
+                if (new IsValidCellCommand(shuffledCell, board, player, otherPlayer, config.PlacementRules).Execute(out var stoneToPlace))
                 {
                     AddStoneToCell(board, stoneToPlace, shuffledCell);
                     return true;
                 }
             }
-
 
             return false;
         }

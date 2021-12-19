@@ -2,7 +2,7 @@ namespace Logic.Rules
 {
     public class KoPlacementRuleCommand : PlacementRuleCommand
     {
-        public override bool Execute(Cell cell,Board board, Player player)
+        public override bool Execute(Cell cell,Board board, Player player, Player otherPlayer)
         {
             var isFirstTurn = board.BoardStates.Count == 1;
 

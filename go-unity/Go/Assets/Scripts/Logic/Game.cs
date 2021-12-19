@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Configs;
 using Logic.AI;
@@ -8,22 +9,23 @@ namespace Logic
     public class Game
     {
         public readonly Board Board;
-        public readonly Player[] Players;
+        public readonly List<Player> Players;
 
         public Game(Vector2Int boardSize, MoveSelector moveSelector, Config config)
         {
             Board = new Board(boardSize, config.Assets);
 
-            Players = new Player[2];
-            for (var i = 0; i < Players.Length; i++)
+            Players = new List<Player>();
+            for (var i = 0; i < 2; i++)
             {
-                Players[i] = new Player(this, moveSelector, config);
+                Players.Add(new Player(this, moveSelector, config));
             }
 
-            foreach (var player in Players)
-            {
-                player.SetOpponent(Players.First(p => p != player));
-            }
+        }
+
+        public Player OtherPlayer(Player player)
+        {
+            return Players.First(p => p != player);
         }
     }
 }

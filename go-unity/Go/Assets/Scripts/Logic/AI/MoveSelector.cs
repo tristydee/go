@@ -7,7 +7,7 @@ namespace Logic.AI
 {
     public abstract class MoveSelector
     {
-        public abstract bool TryPlaceStone(Board board, Player player, Player otherPlayer, Config config);
+        public abstract bool TryPlaceStone(Board board, Player player,Player otherPlayer, Config config);
 
         private List<Cell> cellsToCapture = new List<Cell>();
         protected void AddStoneToCell(Board board, Stone stone, Cell cell)

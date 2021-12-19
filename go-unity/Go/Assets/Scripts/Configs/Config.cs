@@ -29,10 +29,6 @@ namespace Configs
             };
         }
 
-        public void CreateScoringCommand(Game game)
-        {
-        }
-
         public void Init(Game game)
         {
             ScoringCommand.Init(game);

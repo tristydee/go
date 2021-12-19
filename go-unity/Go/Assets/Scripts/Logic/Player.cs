@@ -8,36 +8,32 @@ namespace Logic
 {
     public class Player
     {
-        public CellOccupationState OccupationState => OtherPlayer.OccupationState == CellOccupationState.Player1
-            ? CellOccupationState.Player2
-            : CellOccupationState.Player1;
+        public CellOccupationState OccupationState => IsFirstPlayer
+            ? CellOccupationState.Player1
+            : CellOccupationState.Player2;
 
-        public Color Color => OccupationState == CellOccupationState.Player1 ? Color.black : Color.white;
+        public Color Color => IsFirstPlayer ? Color.black : Color.white;
+        
         public bool HasPassed { get; private set; }
-        public Player OtherPlayer { get; private set; }
+
+        private bool IsFirstPlayer => game.Players.IndexOf(this) == 0;
 
         private readonly MoveSelector moveSelector;
         private readonly Config config;
-        private readonly Board board;
+        private readonly Game game;
 
         public Player(Game game, MoveSelector moveSelector, Config config)
         {
             this.moveSelector = moveSelector;
             this.config = config;
-            board = game.Board;
-        }
-
-        public void SetOpponent(Player otherPlayer)
-        {
-            OtherPlayer = otherPlayer;
+            this.game = game;
         }
 
 
-        public async Task TakeTurn()
+        public void TakeTurn()
         {
-            HasPassed = !await moveSelector.TryPlaceStone(board, this, OtherPlayer,config);
-            board.UpdateState();
-            HasPassed = ! moveSelector.TryPlaceStone(board, this, OtherPlayer,config);
+            HasPassed = ! moveSelector.TryPlaceStone(game.Board, this,game.OtherPlayer(this),config);
+            // board.UpdateState();
         }
     }
 }
