@@ -21,7 +21,7 @@ public class Main : MonoBehaviour
 
     private async void RunGame()
     {
-        while (game.Players.All(p => !p.HasPassed))
+        while (game.Players.Any(p => !p.HasPassed))
         {
             foreach (var player in game.Players)
             {
@@ -29,7 +29,6 @@ public class Main : MonoBehaviour
                 UpdateView();
                 await Task.Delay(TimeSpan.FromSeconds(Config.Settings.DelayBetweenMoves));
             }
-            break;
         }
 
         EndGame();
@@ -46,7 +45,7 @@ public class Main : MonoBehaviour
     private void EndGame()
     {
         var score = Config.ScoringCommand.Execute();
-        Debug.Log($"{score[0].Player} has {score[0].Points} points");
-        Debug.Log($"{score[1].Player} has {score[1].Points} points");
+        Debug.Log($"Player 0 has {score[0].Points} points");
+        Debug.Log($"Player 1 has {score[1].Points} points");
     }
 }

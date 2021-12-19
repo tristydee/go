@@ -9,14 +9,14 @@ namespace Logic.Rules
             if (cellHasEnoughLiberties) return true;
 
             var enemyNeighbours = board.GetNeighbouringCells(cell, otherPlayer.OccupationState);
+            var targetIsLastEnemyLiberty = true;
             foreach (var enemyNeighbour in enemyNeighbours)
             {
                 var neighbours = board.GetNeighbouringCells(enemyNeighbour, CellOccupationState.Empty);
-                if (neighbours.Count == 1 && neighbours[0] == cell)
-                    return true;
+                targetIsLastEnemyLiberty &= neighbours.Count == 1 && neighbours[0] == cell;
             }
 
-            return false;
+            return targetIsLastEnemyLiberty;
         }
     }
 }

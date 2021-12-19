@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Settings
   m_EditorClassIdentifier: 
   BoardSize: {x: 9, y: 9}
-  DelayBetweenMoves: 1
+  DelayBetweenMoves: 0.75

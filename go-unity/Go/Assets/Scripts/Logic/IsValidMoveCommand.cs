@@ -12,7 +12,8 @@ namespace Logic
         private readonly Player otherPlayer;
         private readonly List<PlacementRuleCommand> placementRuleCommands;
 
-        public IsValidCellCommand(Cell cell, Board board, Player player, Player otherPlayer, List<PlacementRuleCommand> placementRuleCommands)
+        public IsValidCellCommand(Cell cell, Board board, Player player, Player otherPlayer,
+            List<PlacementRuleCommand> placementRuleCommands)
         {
             this.cell = cell;
             this.board = board;
@@ -25,7 +26,7 @@ namespace Logic
         {
             stoneToPlace = new Stone(player, otherPlayer);
 
-             var isValid = placementRuleCommands.All(r => r.Execute(cell,board, player, otherPlayer));
+            var isValid = placementRuleCommands.All(r => r.Execute(cell, board, player, otherPlayer));
             return isValid;
         }
     }

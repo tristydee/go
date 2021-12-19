@@ -33,7 +33,10 @@ namespace Logic
         public void TakeTurn()
         {
             HasPassed = ! moveSelector.TryPlaceStone(game.Board, this,game.OtherPlayer(this),config);
-            // board.UpdateState();
+            game.Board.UpdateState();
+            
+            if(HasPassed)
+                Debug.Log($"player {game.Players.IndexOf(this)} passed");
         }
     }
 }
