@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Logic.Rules
 {
     public class EnoughLibertiesPlacementRuleCommand : PlacementRuleCommand
@@ -6,17 +8,22 @@ namespace Logic.Rules
         {
             var cellHasEnoughLiberties = board.GetLiberties(cell, player) > 0;
 
-            if (cellHasEnoughLiberties) return true;
-
-            var enemyNeighbours = board.GetNeighbouringCells(cell, otherPlayer.OccupationState);
-            var targetIsLastEnemyLiberty = true;
-            foreach (var enemyNeighbour in enemyNeighbours)
+            if (cellHasEnoughLiberties)
             {
-                var neighbours = board.GetNeighbouringCells(enemyNeighbour, CellOccupationState.Empty);
-                targetIsLastEnemyLiberty &= neighbours.Count == 1 && neighbours[0] == cell;
+                // bug is here somewhere... placing stones with no liberties. Is board.GetLiberties funky?
+                Debug.Log("cell has enough liberties");
+                return true;
             }
 
-            return targetIsLastEnemyLiberty;
+            var enemyNeighbours = board.GetNeighbouringCells(cell, otherPlayer.OccupationState);
+
+            foreach (var enemyNeighbour in enemyNeighbours)
+            {
+                var liberties = board.GetLiberties(enemyNeighbour, otherPlayer);
+                if (liberties == 1) return true; // enemies last liberty has to be this cell.
+            }
+
+            return false;
         }
     }
 }

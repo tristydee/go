@@ -82,18 +82,16 @@ namespace Logic
             AddCellToList(xPos, yPos + 1);
             AddCellToList(xPos, yPos - 1);
 
-            for (var i = neighbouringCells.Count - 1; i >= 0; i--)
-            {
-                if (!requiredOccupationState.HasFlag(neighbouringCells[i].CellOccupationState))
-                    neighbouringCells.Remove(neighbouringCells[i]);
-            }
-
             return neighbouringCells;
 
             void AddCellToList(int x, int y)
             {
                 if (x >= 0 && x < Cells.GetLength(0) && y >= 0 && y < Cells.GetLength(1))
-                    neighbouringCells.Add(Cells[x, y]);
+                {
+                    if(requiredOccupationState.HasFlag(Cells[x, y].CellOccupationState))
+                        neighbouringCells.Add(Cells[x, y]);
+                }
+                    
             }
         }
     }
