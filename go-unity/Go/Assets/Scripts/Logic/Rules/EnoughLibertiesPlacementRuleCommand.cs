@@ -1,17 +1,15 @@
-using UnityEngine;
-
 namespace Logic.Rules
 {
     public class EnoughLibertiesPlacementRuleCommand : PlacementRuleCommand
     {
         public override bool Execute(Cell cell, Board board, Player player, Player otherPlayer)
         {
+            // seeing how many liberties would shape have if we were to place stone here
+            cell.AddStone(new Stone(player,otherPlayer));
             var cellHasEnoughLiberties = board.GetLiberties(cell, player) > 0;
-
+            cell.RemoveStone();
             if (cellHasEnoughLiberties)
             {
-                // bug is here somewhere... placing stones with no liberties. Is board.GetLiberties funky?
-                Debug.Log("cell has enough liberties");
                 return true;
             }
 
