@@ -12,10 +12,8 @@ namespace Logic.AI
         private List<Cell> cellsToCapture = new List<Cell>();
         protected void AddStoneToCell(Board board, Stone stone, Cell cell)
         {
-            Debug.Log("failed when adding stone to cell!!!");
             cellsToCapture.Clear();
-            cell.AddStone(stone); // adding this line causes game to crash!
-            return;
+            cell.AddStone(stone); 
             var enemyNeighbours = board.GetNeighbouringCells(cell, stone.OtherPlayer.OccupationState);
             foreach (var enemyNeighbour in enemyNeighbours)
             {
