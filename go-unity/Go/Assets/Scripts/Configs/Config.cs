@@ -19,8 +19,8 @@ namespace Configs
 
         public void CreateInstances()
         {
-            MoveSelector = (MoveSelector)Activator.CreateInstance(typeof(RandomMoveSelector));
-            ScoringCommand = (ScoringCommand)Activator.CreateInstance(typeof(AreaScoringCommand));
+            MoveSelector = new RandomMoveSelector();
+            ScoringCommand = new AreaScoringCommand();
             PlacementRules = new List<PlacementRuleCommand>()
             {
                 new CellIsEmptyPlacementRuleCommand(),
@@ -32,6 +32,7 @@ namespace Configs
         public void Init(Game game)
         {
             ScoringCommand.Init(game);
+            MoveSelector.Init();
         }
     }
 }

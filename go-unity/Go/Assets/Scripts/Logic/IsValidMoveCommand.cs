@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Logic.Rules;
+using UnityEngine;
 
 namespace Logic
 {
@@ -22,10 +23,8 @@ namespace Logic
             this.placementRuleCommands = placementRuleCommands;
         }
 
-        public bool Execute(out Stone stoneToPlace)
+        public bool Execute()
         {
-            stoneToPlace = new Stone(player, otherPlayer);
-
             var isValid = placementRuleCommands.All(r => r.Execute(cell, board, player, otherPlayer));
             return isValid;
         }

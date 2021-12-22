@@ -11,6 +11,7 @@ namespace Logic.Scoring
             Score = new Score[2];
             Score[0] = new Score(Game.Players[0]);
             Score[1] = new Score(Game.Players[1]);
+            Score[1].AddKomi();
         }
 
         public abstract Score[] Execute();
