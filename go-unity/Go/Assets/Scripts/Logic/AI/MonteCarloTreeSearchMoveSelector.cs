@@ -34,25 +34,24 @@ namespace Logic.AI
 
 
             stopwatch.Restart();
-            bool foundValidMove = false;
+            bool validMoveExists = false;
             while (IsTimeRemaining(config.Settings.DelayBetweenMovesInMilliseconds))
             {
                 var leaf = Selection();
-                foundValidMove = TryExpandLeaf(leaf, player, out var child);
+                var foundValidMove = TryExpandLeaf(leaf, player, out var child);
 
                 if (!foundValidMove)
                 {
                     continue;
                 }
 
-                foundValidMove = true;
+                validMoveExists = true;
 
                 var result = Simulation(child);
                 BackPropagation(result, child);
             }
 
-            //if we didn't find a valid move in the time remaining (all calls to TryExpand were false).
-            var chosenNode = foundValidMove 
+            var chosenNode = validMoveExists 
                 ? selectionPolicy.SelectMove(currentNode, player)
                 : new Node(currentNode,(validRandomMove,player));
 
@@ -73,6 +72,7 @@ namespace Logic.AI
         private bool TryExpandLeaf(Node leaf, Player player, out Node child)
         {
             //if no valid move available then just return leaf.
+            //need to add this child to children list of leaf.
             throw new System.NotImplementedException();
         }
 
@@ -94,8 +94,6 @@ namespace Logic.AI
                 if (node.Parent == null || node.Parent == currentNode) break;
                 node = node.Parent;
             }
-
-            throw new System.NotImplementedException();
         }
 
         private bool IsTimeRemaining(float maxDuration)

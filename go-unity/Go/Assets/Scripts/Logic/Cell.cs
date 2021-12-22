@@ -8,9 +8,8 @@ namespace Logic
         public bool IsOccupied => Stone != null;
         public CellOccupationState CellOccupationState => !IsOccupied ? CellOccupationState.Empty : Stone.Player.OccupationState;
 
-        //bug happens when stone is not null.
-        public Stone Stone { get; private set; }
-        public Vector2Int Position { get; private set; }
+        public Stone Stone { get; private set; } //todo: redundant with occupation state!
+        public Vector2Int Position { get; }
 
         private CellView cellView;
         private StoneView stoneView;
@@ -21,7 +20,7 @@ namespace Logic
             InitView(position, cellViewPrefab, stoneViewPrefab);
         }
 
-        public void AddStone(Stone stone)
+        public void AddStone(Stone stone) //parameter should be occupation state, not stone
         {
             Stone = stone;
         }
