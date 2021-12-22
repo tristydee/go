@@ -15,7 +15,7 @@ namespace Logic.AI
             Random = new Random();
         }
 
-        public virtual void Init()
+        public virtual void Init(Game game)
         {
         }
 

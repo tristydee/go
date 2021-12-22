@@ -1,9 +1,11 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Logic;
 using UnityEngine;
 using Configs;
+using Debug = UnityEngine.Debug;
 
 public class Main : MonoBehaviour
 {
@@ -21,13 +23,15 @@ public class Main : MonoBehaviour
 
     private async void RunGame()
     {
+        var stopwatch = new Stopwatch();
         while (game.Players.Any(p => !p.HasPassed))
         {
             foreach (var player in game.Players)
             {
+                stopwatch.Restart();
                 player.TakeTurn();
                 UpdateView();
-                await Task.Delay(TimeSpan.FromSeconds(Config.Settings.DelayBetweenMoves));
+                await Task.Delay(Config.Settings.DelayBetweenMovesInMilliseconds - stopwatch.Elapsed.Milliseconds);
             }
         }
 

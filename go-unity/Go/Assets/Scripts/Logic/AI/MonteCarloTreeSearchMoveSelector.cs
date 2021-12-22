@@ -1,15 +1,15 @@
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using Configs;
 
 namespace Logic.AI
 {
     public class MonteCarloTreeSearchMoveSelector : MoveSelector
     {
-        private ISelectionPolicy selectionPolicy;
-        private IPlayoutPolicy playoutPolicy;
+        private readonly ISelectionPolicy selectionPolicy;
+        private readonly IPlayoutPolicy playoutPolicy;
 
-        private Node currentNode; // need to create this when first creating board state
+        private Node currentNode;
+        private Stopwatch stopwatch;
 
         public MonteCarloTreeSearchMoveSelector()
         {
@@ -17,71 +17,92 @@ namespace Logic.AI
             playoutPolicy = new RandomPlayoutPolicy();
         }
 
-        public override void Init()
+        public override void Init(Game game)
         {
-            //init current node.
-            base.Init();
+            currentNode = new Node(game.Board.CurrentBoardState);
+            stopwatch = new Stopwatch();
+            base.Init(game);
         }
 
         public override bool TryPlaceStone(Board board, Player player, Player otherPlayer, Config config)
         {
             var isValidMoveAvailable =
-                new TryGetRandomMoveCommand(Random, board, player, otherPlayer, config).Execute(out var _);
+                new TryGetRandomMoveCommand(Random, board, player, otherPlayer, config)
+                    .Execute(out var validRandomMove);
 
             if (!isValidMoveAvailable) return false;
 
 
-            while (IsTimeRemaining())
+            stopwatch.Restart();
+            bool foundValidMove = false;
+            while (IsTimeRemaining(config.Settings.DelayBetweenMovesInMilliseconds))
             {
                 var leaf = Selection();
-                var child = Expansion(leaf);
-                var result = Simulation();
+                foundValidMove = TryExpandLeaf(leaf, player, out var child);
+
+                if (!foundValidMove)
+                {
+                    continue;
+                }
+
+                foundValidMove = true;
+
+                var result = Simulation(child);
                 BackPropagation(result, child);
             }
 
-            // get the move whose node has the highest number of playouts(uct) or highesat ratio (random)
-            // include below in method within SelectionPolicy as policy decides what the criteria is.
-            //currentnode.children.sort(ratio) instead of tree
+            if (!foundValidMove)
+            {
+                //if we didn't find a valid move in the time remaining (all calls to TryExpand were false), then place the validRandomMove...???
+            }
 
-            //now need to backtrack up the tree until we find the node whose parent is the current state.
+            var chosenNode = selectionPolicy.SelectMove(currentNode);
 
             // AddStoneToCell(board, new Stone(player, otherPlayer),
             // board.Cells[chosenNode.Move.position.x, chosenNode.Move.position.y]);
 
+            currentNode = chosenNode;
             return true;
         }
 
+        //choose a move at leaf of tree.
         private Node Selection()
         {
-            //selection. chose a random move starting at current state. then continue with random moves until we reach leaf of tree.
-            //add back selection policy interface and have a random selection policy implementation. 
+            return selectionPolicy.SelectChild(currentNode);
+        }
+
+        //expansion. grow the search tree by generating a new child at the leaf (random move).
+        private bool TryExpandLeaf(Node leaf, Player player, out Node child)
+        {
+            //if no valid move available then just return leaf.
             throw new System.NotImplementedException();
         }
 
-        private Node Expansion(Node leaf)
+        //simulation. perform a playout from new child. states are NOT added to search tree
+        private Player Simulation(Node child)
         {
-            //expansion. grow the search tree by generating a new child at the leaf.
+            return playoutPolicy.PerformPlayout(child);
+        }
+
+        //back-propagation. use results of simulation to update all the way up to current state.
+        private void BackPropagation(Player winningPlayer, Node child)
+        {
+            var node = child;
+            while (true)
+            {
+                node.Rollouts++;
+                node.SuccessfulRollouts[winningPlayer]++;
+
+                if (node.Parent == null || node.Parent == currentNode) break;
+                node = node.Parent;
+            }
+
             throw new System.NotImplementedException();
         }
 
-        private Result Simulation()
+        private bool IsTimeRemaining(float maxDuration)
         {
-            //simulation. perform a playout from new child. states are NOT added search tree
-            //use playout policy implementation for this. ??? use the try get random move command in random playout policy to make the simulations?
-            //will be interesting to see how many plies deep we go here.
-            throw new System.NotImplementedException();
-        }
-
-        private void BackPropagation(Result result, Node child)
-        {
-            //back-propagation. use results of simulation to update all the way up to current state.
-            throw new System.NotImplementedException();
-        }
-
-        private bool IsTimeRemaining()
-        {
-            //use stopwatch class? delay in main should deduct time spent here from artificial delay?
-            throw new System.NotImplementedException();
+            return stopwatch.Elapsed.Milliseconds < maxDuration;
         }
     }
 }

@@ -21,7 +21,6 @@ namespace Logic
                 }
             }
 
-
             UpdateState();
         }
 
@@ -88,10 +87,9 @@ namespace Logic
             {
                 if (x >= 0 && x < Cells.GetLength(0) && y >= 0 && y < Cells.GetLength(1))
                 {
-                    if(requiredOccupationState.HasFlag(Cells[x, y].CellOccupationState))
+                    if (requiredOccupationState.HasFlag(Cells[x, y].CellOccupationState))
                         neighbouringCells.Add(Cells[x, y]);
                 }
-                    
             }
         }
     }

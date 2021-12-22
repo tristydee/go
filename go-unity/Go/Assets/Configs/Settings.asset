@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf04d101e37948db85fb808819dec976, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  BoardSize: {x: 9, y: 9}
-  DelayBetweenMoves: 0.75
+  BoardSize: {x: 5, y: 5}
+  DelayBetweenMovesInMilliseconds: 1000

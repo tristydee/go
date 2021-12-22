@@ -32,7 +32,7 @@ namespace Configs
         public void Init(Game game)
         {
             ScoringCommand.Init(game);
-            MoveSelector.Init();
+            MoveSelector.Init(game);
         }
     }
 }
