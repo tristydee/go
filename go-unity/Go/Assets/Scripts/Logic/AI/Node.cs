@@ -14,16 +14,17 @@ namespace Logic.AI
         public int Rollouts;
         public Dictionary<Player, int> SuccessfulRollouts;
 
+
         public Node(BoardState state)
         {
             State = state;
         }
 
-        public Node(BoardState state, Node parent ,(Vector2Int position, Player player) move)
+        public Node(Node parent ,(Vector2Int position, Player player) move)
         {
-            State = state;
             Parent = parent;
             Move = move;
+            State = parent.State; //todo: create new state using parents state + move.
         }
 
         public void AddChild(Node child)
@@ -31,5 +32,9 @@ namespace Logic.AI
             Children.Add(child);
         }
 
+        public float GetWinPercentage(Player player)
+        {
+            return (float)SuccessfulRollouts[player] / Rollouts;
+        }
     }
 }

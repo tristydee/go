@@ -51,15 +51,13 @@ namespace Logic.AI
                 BackPropagation(result, child);
             }
 
-            if (!foundValidMove)
-            {
-                //if we didn't find a valid move in the time remaining (all calls to TryExpand were false), then place the validRandomMove...???
-            }
+            //if we didn't find a valid move in the time remaining (all calls to TryExpand were false).
+            var chosenNode = foundValidMove 
+                ? selectionPolicy.SelectMove(currentNode, player)
+                : new Node(currentNode,(validRandomMove,player));
 
-            var chosenNode = selectionPolicy.SelectMove(currentNode);
-
-            // AddStoneToCell(board, new Stone(player, otherPlayer),
-            // board.Cells[chosenNode.Move.position.x, chosenNode.Move.position.y]);
+            AddStoneToCell(board, new Stone(player, otherPlayer),
+                board.Cells[chosenNode.Move.position.x, chosenNode.Move.position.y]);
 
             currentNode = chosenNode;
             return true;
@@ -68,7 +66,7 @@ namespace Logic.AI
         //choose a move at leaf of tree.
         private Node Selection()
         {
-            return selectionPolicy.SelectChild(currentNode);
+            return selectionPolicy.SelectChild(currentNode, Random);
         }
 
         //expansion. grow the search tree by generating a new child at the leaf (random move).
