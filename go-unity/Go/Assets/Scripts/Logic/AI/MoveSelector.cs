@@ -22,21 +22,21 @@ namespace Logic.AI
         public abstract bool TryPlaceStone(Board board, Player player, Player otherPlayer, Config config);
 
 
-        protected void AddStoneToCell(Board board, Stone stone, Cell cell)
+        protected void AddStoneToCell(Board board, CellOccupationState occupationState, Cell cell)
         {
             cellsToCapture.Clear();
-            cell.AddStone(stone);
-            var enemyNeighbours = board.GetNeighbouringCells(cell, stone.OtherPlayer.OccupationState);
+            cell.AddOrRemoveStone(occupationState);
+            var enemyNeighbours = board.GetNeighbouringCells(cell, occupationState.OtherPlayer());
             foreach (var enemyNeighbour in enemyNeighbours)
             {
-                if (board.GetLiberties(enemyNeighbour, stone.OtherPlayer) > 0) continue;
-                var shape = board.GetShape(enemyNeighbour, stone.OtherPlayer.OccupationState);
+                if (board.GetLiberties(enemyNeighbour, occupationState.OtherPlayer()) > 0) continue;
+                var shape = board.GetShape(enemyNeighbour, occupationState.OtherPlayer());
                 cellsToCapture.AddRange(shape);
             }
 
             foreach (var cellToCapture in cellsToCapture)
             {
-                cellToCapture.RemoveStone();
+                cell.AddOrRemoveStone(CellOccupationState.Empty);
             }
         }
     }

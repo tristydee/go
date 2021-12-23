@@ -11,8 +11,7 @@ namespace Logic
         public CellOccupationState OccupationState => IsFirstPlayer
             ? CellOccupationState.Player1
             : CellOccupationState.Player2;
-
-        public Color Color => IsFirstPlayer ? Color.black : Color.white;
+        
         
         public bool HasPassed { get; private set; }
 

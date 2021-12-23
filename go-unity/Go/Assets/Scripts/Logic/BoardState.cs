@@ -45,7 +45,9 @@ namespace Logic
             {
                 for (int y = 0; y < height; y++)
                 {
-                    isEqual &= cellStates[x, y] == other.cellStates[x, y];
+                    // isEqual &= cellStates[x, y] == other.cellStates[x, y];
+                    if (cellStates[x, y] != other.cellStates[x, y])
+                        isEqual = false;
                 }
             }
 

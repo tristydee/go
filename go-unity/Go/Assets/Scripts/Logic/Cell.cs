@@ -5,44 +5,34 @@ namespace Logic
 {
     public class Cell
     {
-        public bool IsOccupied => Stone != null;
-        public CellOccupationState CellOccupationState => !IsOccupied ? CellOccupationState.Empty : Stone.Player.OccupationState;
+        public bool IsOccupied => CellOccupationState.Occupied.HasFlag(CellOccupationState);
+        public CellOccupationState CellOccupationState { get; private set; } = CellOccupationState.Empty;
 
-        public Stone Stone { get; private set; } //todo: redundant with occupation state!
         public Vector2Int Position { get; }
 
         private CellView cellView;
         private StoneView stoneView;
-        
+
         public Cell(Vector2Int position, CellView cellViewPrefab, StoneView stoneViewPrefab)
         {
             Position = position;
             InitView(position, cellViewPrefab, stoneViewPrefab);
         }
 
-        public void AddStone(Stone stone) //parameter should be occupation state, not stone
+        public void AddOrRemoveStone(CellOccupationState occupationState)
         {
-            Stone = stone;
-        }
-
-        public void RemoveStone()
-        {
-            Stone = null;
+            CellOccupationState = occupationState;
         }
 
         public void UpdateView()
         {
-            if (!IsOccupied)
-                stoneView.Hide();
-            else
-                stoneView.Show(Stone.Player);
+            stoneView.UpdateView(CellOccupationState);
         }
 
         private void InitView(Vector2Int position, CellView cellViewPrefab, StoneView stoneViewPrefab)
         {
-            cellView = Object.Instantiate(cellViewPrefab,(Vector2)position,Quaternion.identity);
+            cellView = Object.Instantiate(cellViewPrefab, (Vector2)position, Quaternion.identity);
             stoneView = Object.Instantiate(stoneViewPrefab, cellView.transform);
-            stoneView.Hide();
         }
     }
 }

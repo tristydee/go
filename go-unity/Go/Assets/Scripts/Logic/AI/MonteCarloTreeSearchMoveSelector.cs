@@ -51,11 +51,11 @@ namespace Logic.AI
                 BackPropagation(result, child);
             }
 
-            var chosenNode = validMoveExists 
+            var chosenNode = validMoveExists
                 ? selectionPolicy.SelectMove(currentNode, player)
-                : new Node(currentNode,(validRandomMove,player));
+                : new Node(currentNode, (validRandomMove, player));
 
-            AddStoneToCell(board, new Stone(player, otherPlayer),
+            AddStoneToCell(board, player.OccupationState,
                 board.Cells[chosenNode.Move.position.x, chosenNode.Move.position.y]);
 
             currentNode = chosenNode;

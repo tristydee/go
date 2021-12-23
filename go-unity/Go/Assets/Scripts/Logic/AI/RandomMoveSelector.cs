@@ -14,7 +14,7 @@ namespace Logic.AI
 
             if (foundMove)
             {
-                AddStoneToCell(board, new Stone(player, otherPlayer), board.Cells[position.x, position.y]);
+                AddStoneToCell(board, player.OccupationState, board.Cells[position.x, position.y]);
                 return true;
             }
 

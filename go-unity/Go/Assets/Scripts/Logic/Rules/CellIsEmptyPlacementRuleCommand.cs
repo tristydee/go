@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Logic.Rules
 {
     public class CellIsEmptyPlacementRuleCommand : PlacementRuleCommand

@@ -7,7 +7,7 @@ namespace Logic.Scoring
     public class AreaScoringCommand : ScoringCommand
     {
         private readonly List<Cell> checkedCells = new List<Cell>();
-        private readonly List<Player> bumpedPlayers = new List<Player>();
+        private readonly List<CellOccupationState> bumpedPlayers = new List<CellOccupationState>();
 
         public override Score[] Execute()
         {
@@ -23,7 +23,7 @@ namespace Logic.Scoring
         {
             if (cell.IsOccupied)
             {
-                Score.First(s => s.Player == cell.Stone.Player).Points++;
+                Score.First(s => s.Player.OccupationState == cell.CellOccupationState).Points++;
                 return;
             }
 
@@ -34,7 +34,7 @@ namespace Logic.Scoring
 
             if (bumpedPlayers.Count == 1)
             {
-                Score.First(s => s.Player == bumpedPlayers[0]).Points++;
+                Score.First(s => s.Player.OccupationState == bumpedPlayers[0]).Points++;
             }
 
 
@@ -47,7 +47,7 @@ namespace Logic.Scoring
                     if (checkedCells.Contains(currentCell)) continue;
                     if (cell.IsOccupied)
                     {
-                        bumpedPlayers.AddDistinct(cell.Stone.Player);
+                        bumpedPlayers.AddDistinct(cell.CellOccupationState);
                         if (bumpedPlayers.Count > 1)
                             break;
                     }
@@ -57,7 +57,7 @@ namespace Logic.Scoring
 
                 if (bumpedPlayers.Count == 1)
                 {
-                    Score.First(s => s.Player == bumpedPlayers[0]).Points++;
+                    Score.First(s => s.Player.OccupationState == bumpedPlayers[0]).Points++;
                 } 
             }
 

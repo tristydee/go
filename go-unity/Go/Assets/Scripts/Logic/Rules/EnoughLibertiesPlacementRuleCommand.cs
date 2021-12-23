@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Logic.Rules
 {
     public class EnoughLibertiesPlacementRuleCommand : PlacementRuleCommand
@@ -5,9 +7,9 @@ namespace Logic.Rules
         public override bool Execute(Cell cell, Board board, Player player, Player otherPlayer)
         {
             // seeing how many liberties would shape have if we were to place stone here
-            cell.AddStone(new Stone(player,otherPlayer));
-            var cellHasEnoughLiberties = board.GetLiberties(cell, player) > 0;
-            cell.RemoveStone();
+            cell.AddOrRemoveStone(player.OccupationState);
+            var cellHasEnoughLiberties = board.GetLiberties(cell, player.OccupationState) > 0;
+            cell.AddOrRemoveStone(CellOccupationState.Empty);
             if (cellHasEnoughLiberties)
             {
                 return true;
@@ -17,10 +19,11 @@ namespace Logic.Rules
 
             foreach (var enemyNeighbour in enemyNeighbours)
             {
-                var liberties = board.GetLiberties(enemyNeighbour, otherPlayer);
+                var liberties = board.GetLiberties(enemyNeighbour, otherPlayer.OccupationState);
                 if (liberties == 1) return true; // enemies last liberty has to be this cell.
             }
 
+            Debug.Log("not enough liberties!");
             return false;
         }
     }

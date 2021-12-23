@@ -30,10 +30,10 @@ namespace Logic
             BoardStates.Add(CurrentBoardState);
         }
 
-        public int GetLiberties(Cell cell, Player player)
+        public int GetLiberties(Cell cell, CellOccupationState occupationState)
         {
             var emptyNeighbouringCells = new List<Cell>();
-            var cellsInShape = GetShape(cell, player.OccupationState);
+            var cellsInShape = GetShape(cell, occupationState);
 
             foreach (var connectedFriendlyCell in cellsInShape)
             {

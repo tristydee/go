@@ -5,18 +5,11 @@ namespace Views
 {
     public class StoneView : MonoBehaviour
     {
-
         [SerializeField] private SpriteRenderer spriteRenderer;
-        
-        public void Hide()
-        {
-            spriteRenderer.enabled = false;
-        }
 
-        public void Show(Player player)
+        public void UpdateView(CellOccupationState occupationState)
         {
-            spriteRenderer.enabled = true;
-            spriteRenderer.color = player.Color;
+            spriteRenderer.color = occupationState.Color();
         }
     }
 }
