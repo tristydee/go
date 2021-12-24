@@ -36,7 +36,7 @@ namespace Logic.AI
 
             foreach (var cellToCapture in cellsToCapture)
             {
-                cell.AddOrRemoveStone(CellOccupationState.Empty);
+                cellToCapture.AddOrRemoveStone(CellOccupationState.Empty);
             }
         }
     }

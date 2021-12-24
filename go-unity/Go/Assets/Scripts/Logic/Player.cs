@@ -31,8 +31,11 @@ namespace Logic
 
         public void TakeTurn()
         {
+            //todo: if opponent has passed and score puts you in the lead, then also pass.
+            
             HasPassed = ! moveSelector.TryPlaceStone(game.Board, this,game.OtherPlayer(this),config);
             game.Board.UpdateState();
+            
             
             if(HasPassed)
                 Debug.Log($"player {game.Players.IndexOf(this)} passed");
