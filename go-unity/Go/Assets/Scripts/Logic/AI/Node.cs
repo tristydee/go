@@ -25,6 +25,8 @@ namespace Logic.AI
             Parent = parent;
             Move = move;
             State = parent.State; //todo: create new state using parents state + move.
+            State.CellStates[move.position.x, move.position.y] =
+                move.player.OccupationState; // not good enough! need to actually place the stone to capture enemies!
         }
 
         public void AddChild(Node child)

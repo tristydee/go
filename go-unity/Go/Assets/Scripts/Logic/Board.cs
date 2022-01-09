@@ -30,6 +30,20 @@ namespace Logic
             BoardStates.Add(CurrentBoardState);
         }
 
+        public void SetCellsFromState(BoardState state)
+        {
+            var width = Cells.GetLength(0);
+            var height = Cells.GetLength(1);
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Cells[x, y].AddOrRemoveStone(state.CellStates[x, y]);
+                }
+            }
+        }
+        
         public int GetLiberties(Cell cell, CellOccupationState occupationState)
         {
             var emptyNeighbouringCells = new List<Cell>();

@@ -2,26 +2,26 @@ namespace Logic
 {
     public class BoardState
     {
-        private readonly CellOccupationState[,] cellStates;
+        public CellOccupationState[,] CellStates { get; }
 
         public BoardState(Board board)
         {
             var width = board.Cells.GetLength(0);
             var height = board.Cells.GetLength(1);
             
-            cellStates = new CellOccupationState[width,height];
+            CellStates = new CellOccupationState[width,height];
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    cellStates[x, y] = board.Cells[x, y].CellOccupationState;
+                    CellStates[x, y] = board.Cells[x, y].CellOccupationState;
                 }
             }
         }
 
         public override int GetHashCode()
         {
-            return (cellStates != null ? cellStates.GetHashCode() : 0);
+            return (CellStates != null ? CellStates.GetHashCode() : 0);
         }
 
         public static bool operator ==(BoardState state1, BoardState state2)
@@ -36,8 +36,8 @@ namespace Logic
         
         private bool Equals(BoardState other)
         {
-            var width = cellStates.GetLength(0);
-            var height = cellStates.GetLength(1);
+            var width = CellStates.GetLength(0);
+            var height = CellStates.GetLength(1);
 
             var isEqual = true;
             
@@ -45,7 +45,7 @@ namespace Logic
             {
                 for (int y = 0; y < height; y++)
                 {
-                    isEqual &= cellStates[x, y] == other.cellStates[x, y];
+                    isEqual &= CellStates[x, y] == other.CellStates[x, y];
                 }
             }
 

@@ -10,22 +10,20 @@ namespace Logic
         private readonly Cell cell;
         private readonly Board board;
         private readonly Player player;
-        private readonly Player otherPlayer;
         private readonly List<PlacementRuleCommand> placementRuleCommands;
 
-        public IsValidCellCommand(Cell cell, Board board, Player player, Player otherPlayer,
+        public IsValidCellCommand(Cell cell, Board board, Player player,
             List<PlacementRuleCommand> placementRuleCommands)
         {
             this.cell = cell;
             this.board = board;
             this.player = player;
-            this.otherPlayer = otherPlayer;
             this.placementRuleCommands = placementRuleCommands;
         }
 
         public bool Execute()
         {
-            var isValid = placementRuleCommands.All(r => r.Execute(cell, board, player, otherPlayer));
+            var isValid = placementRuleCommands.All(r => r.Execute(cell, board, player));
             return isValid;
         }
     }

@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Linq;
 using Configs;
+using UnityEngine.Animations;
 
 namespace Logic.AI
 {
@@ -26,24 +28,23 @@ namespace Logic.AI
 
         public override bool TryPlaceStone(Board board, Player player, Player otherPlayer, Config config)
         {
+            currentNode = new Node(board.CurrentBoardState);
+
             var isValidMoveAvailable =
-                new TryGetRandomMoveCommand(Random, board, player, otherPlayer, config)
+                new TryGetRandomMoveCommand(Random, board, player, config)
                     .Execute(out var validRandomMove);
 
             if (!isValidMoveAvailable) return false;
 
-
             stopwatch.Restart();
-            bool validMoveExists = false;
+            bool validMoveExists = false; //amount of similar bools is confusing
             while (IsTimeRemaining(config.Settings.DelayBetweenMovesInMilliseconds))
             {
                 var leaf = Selection();
-                var foundValidMove = TryExpandLeaf(leaf, player, out var child);
+                var foundValidMove = TryExpandLeaf(board, leaf, player, config, out var child);
 
                 if (!foundValidMove)
-                {
                     continue;
-                }
 
                 validMoveExists = true;
 
@@ -58,7 +59,7 @@ namespace Logic.AI
             AddStoneToCell(board, player.OccupationState,
                 board.Cells[chosenNode.Move.position.x, chosenNode.Move.position.y]);
 
-            currentNode = chosenNode;
+
             return true;
         }
 
@@ -69,11 +70,20 @@ namespace Logic.AI
         }
 
         //expansion. grow the search tree by generating a new child at the leaf (random move).
-        private bool TryExpandLeaf(Node leaf, Player player, out Node child)
+        private bool TryExpandLeaf(Board board, Node leaf, Player player, Config config, out Node child)
         {
-            //if no valid move available then just return leaf.
-            //need to add this child to children list of leaf.
-            throw new System.NotImplementedException();
+            board.SetCellsFromState(leaf.State);
+            var foundMove = new TryGetRandomMoveCommand(Random, board, player, config).Execute(out var position);
+            if (!foundMove)
+            {
+                child = leaf;
+                return false;
+            }
+
+            child = new Node(leaf, (position, player));
+            leaf.Children.Add(child);
+
+            return true;
         }
 
         //simulation. perform a playout from new child. states are NOT added to search tree

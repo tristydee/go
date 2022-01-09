@@ -12,15 +12,13 @@ namespace Logic.AI
         private Random random;
         private Board board;
         private Player player;
-        private Player otherPlayer;
         private Config config;
 
-        public TryGetRandomMoveCommand(Random random, Board board, Player player, Player otherPlayer, Config config)
+        public TryGetRandomMoveCommand(Random random, Board board, Player player, Config config)
         {
             this.random = random;
             this.board = board;
             this.player = player;
-            this.otherPlayer = otherPlayer;
             this.config = config;
         }
 
@@ -42,7 +40,7 @@ namespace Logic.AI
 
             foreach (var shuffledCell in shuffledCells)
             {
-                if (new IsValidCellCommand(shuffledCell, board, player, otherPlayer, config.PlacementRules).Execute())
+                if (new IsValidCellCommand(shuffledCell, board, player, config.PlacementRules).Execute())
                 {
                     position = shuffledCell.Position;
                     return true;
