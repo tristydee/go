@@ -1,12 +1,12 @@
 using System.Diagnostics;
-using System.Linq;
 using Configs;
-using UnityEngine.Animations;
+using Zenject;
 
 namespace Logic.AI
 {
     public class MonteCarloTreeSearchMoveSelector : MoveSelector
     {
+        [Inject] private Settings settings;
         private readonly ISelectionPolicy selectionPolicy;
         private readonly IPlayoutPolicy playoutPolicy;
 
@@ -26,22 +26,22 @@ namespace Logic.AI
             base.Init(game);
         }
 
-        public override bool TryPlaceStone(Board board, Player player, Player otherPlayer, Config config)
+        public override bool TryPlaceStone(Board board, Player player, Player otherPlayer)
         {
             currentNode = new Node(board.CurrentBoardState);
 
             var isValidMoveAvailable =
-                new TryGetRandomMoveCommand(Random, board, player, config)
+                new TryGetRandomMoveCommand(Random, board, player)
                     .Execute(out var validRandomMove);
 
             if (!isValidMoveAvailable) return false;
 
             stopwatch.Restart();
             bool validMoveExists = false; //amount of similar bools is confusing
-            while (IsTimeRemaining(config.Settings.DelayBetweenMovesInMilliseconds))
+            while (IsTimeRemaining(settings.DelayBetweenMovesInMilliseconds))
             {
                 var leaf = Selection();
-                var foundValidMove = TryExpandLeaf(board, leaf, player, config, out var child);
+                var foundValidMove = TryExpandLeaf(board, leaf, player, out var child);
 
                 if (!foundValidMove)
                     continue;
@@ -70,10 +70,10 @@ namespace Logic.AI
         }
 
         //expansion. grow the search tree by generating a new child at the leaf (random move).
-        private bool TryExpandLeaf(Board board, Node leaf, Player player, Config config, out Node child)
+        private bool TryExpandLeaf(Board board, Node leaf, Player player, out Node child)
         {
             board.SetCellsFromState(leaf.State);
-            var foundMove = new TryGetRandomMoveCommand(Random, board, player, config).Execute(out var position);
+            var foundMove = new TryGetRandomMoveCommand(Random, board, player).Execute(out var position);
             if (!foundMove)
             {
                 child = leaf;

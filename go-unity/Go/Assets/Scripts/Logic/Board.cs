@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Configs;
 using UnityEngine;
+using Zenject;
 
 namespace Logic
 {
@@ -10,8 +11,12 @@ namespace Logic
         public readonly List<BoardState> BoardStates = new List<BoardState>();
         public BoardState CurrentBoardState;
 
-        public Board(Vector2Int size, Assets assets)
+        [Inject] private Settings settings;
+        [Inject] private Assets assets;
+
+        public Board()
         {
+            var size = settings.BoardSize;
             Cells = new Cell[size.x, size.y];
             for (int x = 0; x < size.x; x++)
             {

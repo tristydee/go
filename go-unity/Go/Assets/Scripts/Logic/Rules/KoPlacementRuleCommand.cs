@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Logic.Rules
 {
     public class KoPlacementRuleCommand : PlacementRuleCommand

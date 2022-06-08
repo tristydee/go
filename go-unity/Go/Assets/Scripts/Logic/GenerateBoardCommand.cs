@@ -1,21 +1,16 @@
 using Configs;
 using UnityEngine;
+using Zenject;
 
 namespace Logic
 {
     
     public class GenerateBoardCommand
     {
-        private readonly Config config;
-
-        public GenerateBoardCommand(Config config)
-        {
-            this.config = config;
-        }
-
+        [Inject] private Settings settings;
         public Game Execute()
         {
-            var game = new Game(config.Settings.BoardSize,config.MoveSelector, config);
+            var game = new Game();
             PositionCamera();
             return game;
         }
@@ -23,7 +18,7 @@ namespace Logic
         private void PositionCamera()
         {
             var cam = Camera.main;
-            var boardSize = config.Settings.BoardSize;
+            var boardSize = settings.BoardSize;
             cam.transform.position = new Vector3(boardSize.x / 2f -.5f, boardSize.y / 2f -.5f, -10);
         }
     }

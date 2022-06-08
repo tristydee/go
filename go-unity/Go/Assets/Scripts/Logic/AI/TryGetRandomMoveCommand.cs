@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Common;
-using Configs;
+using Logic.Rules;
 using UnityEngine;
+using Zenject;
 using Random = System.Random;
 
 namespace Logic.AI
@@ -12,14 +12,14 @@ namespace Logic.AI
         private Random random;
         private Board board;
         private Player player;
-        private Config config;
 
-        public TryGetRandomMoveCommand(Random random, Board board, Player player, Config config)
+        [Inject] private List<PlacementRuleCommand> placementRules;
+
+        public TryGetRandomMoveCommand(Random random, Board board, Player player)
         {
             this.random = random;
             this.board = board;
             this.player = player;
-            this.config = config;
         }
 
 
@@ -40,7 +40,7 @@ namespace Logic.AI
 
             foreach (var shuffledCell in shuffledCells)
             {
-                if (new IsValidCellCommand(shuffledCell, board, player, config.PlacementRules).Execute())
+                if (new IsValidCellCommand(shuffledCell, board, player).Execute())
                 {
                     position = shuffledCell.Position;
                     return true;

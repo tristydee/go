@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Configs;
-using Logic.AI;
-using UnityEngine;
 
 namespace Logic
 {
@@ -11,14 +8,14 @@ namespace Logic
         public readonly Board Board;
         public readonly List<Player> Players;
 
-        public Game(Vector2Int boardSize, MoveSelector moveSelector, Config config)
+        public Game()
         {
-            Board = new Board(boardSize, config.Assets);
+            Board = new Board();
 
             Players = new List<Player>();
             for (var i = 0; i < 2; i++)
             {
-                Players.Add(new Player(this, moveSelector, config));
+                Players.Add(new Player(this));
             }
 
         }
