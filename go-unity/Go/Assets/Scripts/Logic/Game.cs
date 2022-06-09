@@ -10,8 +10,7 @@ namespace Logic
 
         public Game()
         {
-            Board = new Board();
-
+            Board = new Board().Init();
             Players = new List<Player>();
             for (var i = 0; i < 2; i++)
             {

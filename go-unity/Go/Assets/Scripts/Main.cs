@@ -10,9 +10,6 @@ public class Main : MonoBehaviour
 
     private async void Start()
     {
-        var container = new DiContainer();
-        LogicInstaller.Install(container);
-        ConfigInstaller.Install(container);
 
         game = new GenerateBoardCommand().Execute();
         new InitLogicCommand(game).Execute();

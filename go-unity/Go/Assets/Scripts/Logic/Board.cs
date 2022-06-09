@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Configs;
+using Logic.AI;
 using UnityEngine;
 using Zenject;
 
@@ -7,14 +8,14 @@ namespace Logic
 {
     public class Board
     {
-        public readonly Cell[,] Cells;
+        public Cell[,] Cells;
         public readonly List<BoardState> BoardStates = new List<BoardState>();
         public BoardState CurrentBoardState;
 
         [Inject] private Settings settings;
         [Inject] private Assets assets;
 
-        public Board()
+        public Board Init()
         {
             var size = settings.BoardSize;
             Cells = new Cell[size.x, size.y];
@@ -27,6 +28,8 @@ namespace Logic
             }
 
             UpdateState();
+
+            return this;
         }
 
         public void UpdateState()

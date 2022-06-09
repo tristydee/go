@@ -5,12 +5,12 @@ namespace Common
 {
     public class ConfigInstaller : Installer<ConfigInstaller>
     {
-        private const string PathPrefix = "Assets/Configs/";
+        private const string PathPrefix = "Configs/";
 
         public override void InstallBindings()
         {
-            Container.Bind<Settings>().FromScriptableObjectResource(PathPrefix + "Settings");
-            Container.Bind<Assets>().FromScriptableObjectResource(PathPrefix + "Assets");
+            Container.Bind<Settings>().FromScriptableObjectResource(PathPrefix + "Settings").AsSingle();
+            Container.Bind<Assets>().FromScriptableObjectResource(PathPrefix + "Assets").AsSingle();
         }
     }
 }
