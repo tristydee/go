@@ -1,3 +1,4 @@
+using Common;
 using Configs;
 using UnityEngine;
 using Zenject;
@@ -8,9 +9,10 @@ namespace Logic
     public class GenerateBoardCommand
     {
         [Inject] private Settings settings;
+        [Inject] private DiContainer container;
         public Game Execute()
         {
-            var game = new Game();
+            var game = new Game().Inject(container).Init();
             PositionCamera();
             return game;
         }

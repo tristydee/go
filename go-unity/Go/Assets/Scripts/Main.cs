@@ -5,15 +5,12 @@ using Zenject;
 
 public class Main : MonoBehaviour
 {
-
-    private Game game;
-
+    [Inject] private DiContainer container;
+    
     private async void Start()
     {
-
-        game = new GenerateBoardCommand().Execute();
-        new InitLogicCommand(game).Execute();
-
+        var game = new GenerateBoardCommand().Inject(container).Execute();
+        new InitLogicCommand(game).Inject(container).Execute();
         await new RunGameCommandAsync(game).Execute();
         new EndGameCommand().Execute();
     }
