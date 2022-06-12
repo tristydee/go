@@ -16,7 +16,6 @@ namespace Common
             this.game = game;
         }
 
-        [Inject]
         public void Execute()
         {
             scoringCommand.Init(game);
