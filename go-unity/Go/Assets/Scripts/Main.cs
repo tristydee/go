@@ -11,7 +11,7 @@ public class Main : MonoBehaviour
     {
         var game = new GenerateBoardCommand().Inject(container).Execute();
         new InitLogicCommand(game).Inject(container).Execute();
-        await new RunGameCommandAsync(game).Execute();
-        new EndGameCommand().Execute();
+        await new RunGameCommandAsync(game).Inject(container).Execute();
+        new EndGameCommand().Inject(container).Execute();
     }
 }

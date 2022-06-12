@@ -13,7 +13,7 @@ namespace Logic.AI
         private Board board;
         private Player player;
 
-        [Inject] private List<PlacementRuleCommand> placementRules;
+        [Inject] private DiContainer container;
 
         public TryGetRandomMoveCommand(Random random, Board board, Player player)
         {
@@ -40,7 +40,7 @@ namespace Logic.AI
 
             foreach (var shuffledCell in shuffledCells)
             {
-                if (new IsValidCellCommand(shuffledCell, board, player).Execute())
+                if (new IsValidCellCommand(shuffledCell, board, player).Inject(container).Execute())
                 {
                     position = shuffledCell.Position;
                     return true;

@@ -18,7 +18,7 @@ namespace Logic
             Players = new List<Player>();
             for (var i = 0; i < 2; i++)
             {
-                Players.Add(new Player(this));
+                Players.Add(new Player(this).Inject(container));
             }
 
             return this;
