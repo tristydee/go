@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Configs;
 using Logic.AI;
 using UnityEngine;
+using Zenject;
 
 namespace Logic
 {
@@ -11,20 +9,17 @@ namespace Logic
         public CellOccupationState OccupationState => IsFirstPlayer
             ? CellOccupationState.Player1
             : CellOccupationState.Player2;
-        
-        
+
+
         public bool HasPassed { get; private set; }
 
         private bool IsFirstPlayer => game.Players.IndexOf(this) == 0;
 
-        private readonly MoveSelector moveSelector;
-        private readonly Config config;
+        [Inject] private readonly MoveSelector moveSelector;
         private readonly Game game;
 
-        public Player(Game game, MoveSelector moveSelector, Config config)
+        public Player(Game game)
         {
-            this.moveSelector = moveSelector;
-            this.config = config;
             this.game = game;
         }
 
@@ -32,12 +27,12 @@ namespace Logic
         public void TakeTurn()
         {
             //todo: if opponent has passed and score puts you in the lead, then also pass.
-            
-            HasPassed = ! moveSelector.TryPlaceStone(game.Board, this,game.OtherPlayer(this),config);
+
+            HasPassed = !moveSelector.TryPlaceStone(game.Board, this, game.OtherPlayer(this));
             game.Board.UpdateState();
-            
-            
-            if(HasPassed)
+
+
+            if (HasPassed)
                 Debug.Log($"player {game.Players.IndexOf(this)} passed");
         }
     }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Configs;
 using Random = System.Random;
 
 namespace Logic.AI
@@ -19,7 +18,7 @@ namespace Logic.AI
         {
         }
 
-        public abstract bool TryPlaceStone(Board board, Player player, Player otherPlayer, Config config);
+        public abstract bool TryPlaceStone(Board board, Player player, Player otherPlayer);
 
 
         protected void AddStoneToCell(Board board, CellOccupationState occupationState, Cell cell)

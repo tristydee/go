@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Logic.Rules;
-using UnityEngine;
+using Zenject;
 
 namespace Logic
 {
@@ -10,15 +10,13 @@ namespace Logic
         private readonly Cell cell;
         private readonly Board board;
         private readonly Player player;
-        private readonly List<PlacementRuleCommand> placementRuleCommands;
+        [Inject] private readonly List<PlacementRuleCommand> placementRuleCommands;
 
-        public IsValidCellCommand(Cell cell, Board board, Player player,
-            List<PlacementRuleCommand> placementRuleCommands)
+        public IsValidCellCommand(Cell cell, Board board, Player player)
         {
             this.cell = cell;
             this.board = board;
             this.player = player;
-            this.placementRuleCommands = placementRuleCommands;
         }
 
         public bool Execute()
